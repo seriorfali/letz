@@ -1,31 +1,30 @@
-// Step 1 //
-var mongoose = require('mongoose'),
-    bcrypt   = require('bcrypt-nodejs'),
-    Schema   = mongoose.Schema
+var mongoose = require('mongoose')
+  , bcrypt = require('bcrypt-nodejs')
+  , Schema = mongoose.Schema
 
+// Schema for local and Facebook users.
 var userSchema = new Schema({
     local: {
-      username: String,
-      email: { type: String, required: true,  unique: true },
-      password: { type: String, required: true,
-      status: String,
-      dob: { type: Date, default: new Date() },
-      similarity: String,
+      email: {type: String, required: true,  unique: true},
+      password: {type: String, required: true},
+      first_name: String,
+      last_name: String,
+      dob: {type: Date, required: true, default: new Date()},
+      status: String
     },
     facebook: {
       id: String,
       name: String,
-      token: String,
-      email: String
+      email: String,
+      token: String
     }
 })
 
-//create 2 custom methods for userSchema
-userSchema.methods.generateHash = function(password){
+userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 }
 
-userSchema.methods.validPassword = function(password){
+userSchema.methods.validPassword = function(password) {
   var user = this
   return bcrypt.compareSync(password, user.local.password)
 }
@@ -33,4 +32,3 @@ userSchema.methods.validPassword = function(password){
 var User = mongoose.model('User', userSchema)
 
 module.exports = User
-// End Step 1 //
