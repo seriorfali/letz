@@ -21,13 +21,19 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
+app.use("/assets", express.static(__dirname + "/assets"))
 
 // Database connection.
 
 
-// User routes.
+// API routes.
 var userRoutes = require("./routes/userRoutes.js")
-app.use("/", userRoutes)
+app.use("/api/users", userRoutes)
+
+// Frontend routes.
+app.get("*", function(req, res) {
+  res.sendfile("./views/index.html")
+})
 
 // WebSocket callbacks.
 webSocketsProvider.on("connection", function(socket) {
