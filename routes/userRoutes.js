@@ -14,4 +14,9 @@ userRouter.route("/:email")
 userRouter.route("/login")
   .post(usersController.login)
 
+// Facebook routes.
+userRouter.get("/auth/facebook", usersController.fbAuth)
+
+userRouter.get("/auth/facebook/callback", usersController.fbAuthCallback)
+
 module.exports = userRouter
