@@ -2,7 +2,9 @@ var User = require('../models/User.js')
 
 //index shows all the users
   function index(req, res) {
-    
+    User.find({},function(err, users){
+      if(err) throw err
+      res.json(uses)
     })
   }
 
