@@ -4,7 +4,7 @@ var User = require('../models/User.js')
   function index(req, res) {
     User.find({},function(err, users){
       if(err) throw err
-      res.json(uses)
+      res.json(users)
     })
   }
 
@@ -18,35 +18,32 @@ var User = require('../models/User.js')
 
 //need to create action to show a single user
   function create(req, res){
-    console.log('Creating a user')
-    var user = new User()
-
-    user.user_name = req.body.username
-    user.email = req.body.email
-    user.save(function(err){
-      if(err){
-        if(err.code == 11000){
-          return res.json({sucess:false, message:'dude, WTF, this email already exists!?'})
-        } else {
-                res.send(err)
-        }
-      }
-      res.json({success: true, message: 'User created successfully!!!!!!'})
+    passport.authenticate("local-signup", {
+      successRedirect: "/",
+      failureRedirect: "/",
     })
-    }
+  }
 
   function update(req, res){
-
-    }
+    User.findOneAndUpdate({__id: req.params.id}, req.body.User, {new: true},
+    function(err, user){
+      if (err) console.log(err)
+      res.json(user)
+    })
+  }
 
   function destroy(req,res){
-
-    }
+    User.findOneAndRemove({__id: req.params.id}, function(err){
+      if (err) console.log(err)
+      res.json({success: true, message: 'User destroyed. boom!'})
+      res.redirect('/')
+    })
+  }
 
 module.exports = {
   indexUser: index,
   addUser: create,
-  showUser: show,//both index and show??
+  showUser: show,
   updateUser: update,
   destroyUser: destroy
 }
