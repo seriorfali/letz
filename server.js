@@ -34,6 +34,11 @@ webSocketsProvider.on("connection", function(socket) {
   console.log("A user connected.")
 })
 
+app.get('/', function(req, res){
+  res.send('<h1>Hello world</h1>');
+});
+
+
 // Environment port.
 var port = process.env.PORT || 1000
 
