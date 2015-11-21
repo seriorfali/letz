@@ -2,11 +2,11 @@ var express = require("express")
   , userRouter = express.Router()
   , usersController = require("../controllers/usersController.js")
 
-userRouter.route("/users")
+userRouter.route("/")
   .get(usersController.showUsers)
   .post(usersController.addUser)
 
-userRouter.route("/users/:id")
+userRouter.route("/:email")
   .get(usersController.showUser)
   .put(usersController.updateUser)
   .delete(usersController.destroyUser)
