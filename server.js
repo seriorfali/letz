@@ -24,7 +24,7 @@ app.use(passport.session())
 app.use("/assets", express.static(__dirname + "/assets"))
 
 // Database connection.
-
+mongoose.connect("mongodb://seriorfali:oolpI700#@ds045054.mongolab.com:45054/letz-app")
 
 // API routes.
 var userRoutes = require("./routes/userRoutes.js")
