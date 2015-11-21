@@ -9,7 +9,7 @@ var userSchema = new Schema({
       password: {type: String, required: true},
       first_name: String,
       last_name: String,
-      dob: {type: Date, required: true, default: new Date()},
+      dob: {type: Date, required: true},
       status: String
     },
     facebook: {

@@ -16,7 +16,7 @@ function show(req, res) {
 }
 
 //need to create action to show a single user
-function create(req, res) {
+function add(req, res) {
   passport.authenticate("local-signup", {
     successRedirect: "/",
     failureRedirect: "/",
@@ -65,7 +65,7 @@ function logout(req, res) {
 
 module.exports = {
   showUsers: index,
-  addUser: create,
+  addUser: add,
   showUser: show,
   updateUser: update,
   destroyUser: destroy,
