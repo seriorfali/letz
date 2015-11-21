@@ -17,3 +17,15 @@ userRouter.route('/login')
     failureRedirect: '/login',
     failureFlash: true
   }))
+
+//secondly we have the userRouter for signing up
+userRouter.route('/signup')
+  .get(function(req, res){
+    res.render('signup', {message: req.flash('signupMessage')})
+  })
+  // do .post again
+  .post(passport.authenticate('local-signup', {
+    successRedirect: '/profile',
+    failureRedirect: '/signup',
+    failureFlash: true
+  }))
