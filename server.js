@@ -19,6 +19,10 @@ app.use(logger("dev"))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(session({
+	secret: process.env.LETZ_SECRET,
+	cookie: {_expires: 6000000000}
+}))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use("/assets", express.static(__dirname + "/assets"))
