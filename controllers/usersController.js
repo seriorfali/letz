@@ -8,7 +8,7 @@ var User = require('../models/User.js')
     })
   }
 
-//need to create action to create a new user
+
   function show(req, res) {
     User.find({email: req.params.email},function(err,user){
       if(err) throw err
@@ -46,7 +46,7 @@ var User = require('../models/User.js')
 module.exports = {
   indexUser: index,
   addUser: create,
-  showUser: show,
+  showUser: show,//both index and show??
   updateUser: update,
   destroyUser: destroy
 }
