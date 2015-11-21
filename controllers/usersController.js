@@ -58,6 +58,11 @@ function fbAuthCallback(req, res) {
   })
 }
 
+function logout(req, res) {
+  req.logout()
+  res.redirect("/")
+}
+
 module.exports = {
   showUsers: index,
   addUser: create,
@@ -66,5 +71,6 @@ module.exports = {
   destroyUser: destroy,
   login: login,
   fbAuth: fbAuth,
-  fbAuthCallback: fbAuthCallback
+  fbAuthCallback: fbAuthCallback,
+  logout: logout
 }

@@ -11,8 +11,9 @@ userRouter.route("/:email")
   .put(usersController.updateUser)
   .delete(usersController.destroyUser)
 
-userRouter.route("/login")
-  .post(usersController.login)
+userRouter.post("/login", usersController.login)
+
+userRouter.get("/logout", usersController.logout)
 
 // Facebook routes.
 userRouter.get("/auth/facebook", usersController.fbAuth)
