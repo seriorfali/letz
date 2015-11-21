@@ -24,6 +24,8 @@ var User = require('../models/User.js')
     })
   }
 
+
+
   function update(req, res){
     User.findOneAndUpdate({__id: req.params.id}, req.body.User, {new: true},
     function(err, user){
@@ -40,10 +42,19 @@ var User = require('../models/User.js')
     })
   }
 
+  function login(req, res){
+    passport.authenticate("local-login", {
+      successRedirect: "/",
+      failureRedirect: "/",
+      failureFlash: true
+    })
+  }
+
 module.exports = {
   indexUser: index,
   addUser: create,
   showUser: show,
   updateUser: update,
   destroyUser: destroy
+  login: login
 }
