@@ -12,7 +12,7 @@ var express = require("express")
     // To allow HTTP to be bound to same port as WebSockets.
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
-  , webSocketsProvider = require(socket.io)(httpServer)
+  , webSocketsProvider = require("socket.io")(httpServer)
 
 // Middleware.
 app.use(logger("dev"))
@@ -21,7 +21,9 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(session({
 	secret: process.env.LETZ_SECRET,
-	cookie: {_expires: 6000000000}
+	cookie: {_expires: 6000000000},
+  resave: true,
+  saveUninitialized: true
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -45,7 +47,7 @@ webSocketsProvider.on("connection", function(socket) {
 })
 
 // Environment port.
-var port = process.env.PORT || 1000
+var port = process.env.PORT || 3000
 
 httpServer.listen(port, function() {
   console.log("Server running on port " + port + ".")
