@@ -28,7 +28,7 @@ Secondly, the Yelp API will be utilized to provide the logged in users with rest
 
 There will be full CRUD functionality for users for their profiles. Users will be able to CREATE a user profile, and upon signing in, have the ability to READ their user info, UPDATE/edit their information, and DESTROY their user profile. If the user attempts to provide credentials and fails at authentication three times in a row, they will be forwarded to the CREATE user (sign-up) page.
 
-The logged in user activities will be logged to a Mongo database. The object will include eight different activities to choose from
+The logged in user activities will be logged to a Mongo database. The object will include eight different activities to choose from <!--name 8 activities here -->
 
 ## Technologies/APIs Used
 
