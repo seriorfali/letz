@@ -3,6 +3,7 @@ $(function() {
   if (navigator.geolocation) {
     // Browser supports geolocation.
     console.log("Geolocation supported.")
+    // Periodically retrieve user's current location.
     navigator.geolocation.watchPosition(function(position) {
       var pos = {
         lat: position.coords.latitude,
