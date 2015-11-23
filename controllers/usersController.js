@@ -18,7 +18,7 @@ function show(req, res) {
 
 //need to create action to show a single user
 function add(req, res) {
-  
+
 }
 
 function update(req, res) {
