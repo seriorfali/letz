@@ -26,6 +26,7 @@ passport.use("local-signup", new LocalStrategy({
   User.findOne({"local.email": email}, function(err, user) {
     if(err) return done(err)
     if(user) return done(null, false, req.flash("signupMessage", "That email is already taken."))
+    if(req.body.email.length === 0) return done(null, false, req.flash("signupMessage", "Email is required to create a new user."))
     // If no error and email is not taken, add new user to database.
     var newUser = new User()
     newUser.local.name = req.body.name
