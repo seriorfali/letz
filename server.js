@@ -21,13 +21,12 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(session({
 	secret: process.env.LETZ_SECRET,
-	cookie: {_expires: 6000000000},
   resave: true,
   saveUninitialized: true
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use("/assets", express.static(__dirname + "/assets"))
+app.use("/public", express.static(__dirname + "/public"))
 
 // Database connection.
 mongoose.connect("mongodb://seriorfali:oolpI700#@ds045054.mongolab.com:45054/letz-app")
@@ -38,7 +37,8 @@ app.use("/api/users", userRoutes)
 
 // Frontend routes.
 app.get("*", function(req, res) {
-  res.render("index", {currentUser: req.user})
+  // res.render("index", {currentUser: req.user})
+  res.sendFile(__dirname + "/views/index.html")
 })
 
 // WebSocket callbacks.
