@@ -1,7 +1,8 @@
 var passport = require('passport')
-,   User = require('../models/User.js')
+  , passportConfig = require("../config/passport.js")
+  , User = require('../models/User.js')
 
-//index shows all the users
+// To return all user documents.
 function index(req, res) {
   User.find({},function(err, users){
     if(err) throw err
@@ -9,6 +10,7 @@ function index(req, res) {
   })
 }
 
+// To return a single user document.
 function show(req, res) {
   User.find({email: req.params.email}, function(err,user){
     if(err) throw err
@@ -16,11 +18,13 @@ function show(req, res) {
   })
 }
 
-//need to create action to show a single user
-function add(req, res) {
+// To add user document to database.
+var add = passport.authenticate("local-signup", {
+  successRedirect: "/",
+  failureRedirect: "/",
+})
 
-}
-
+// To update user document.
 function update(req, res) {
   User.findOneAndUpdate({_id: req.params.id}, req.body.User, {new: true},
   function(err, user){
@@ -29,6 +33,7 @@ function update(req, res) {
   })
 }
 
+// To delete user document from database.
 function destroy(req,res) {
   User.findOneAndRemove({_id: req.params.id}, function(err){
     if (err) console.log(err)
@@ -37,24 +42,19 @@ function destroy(req,res) {
   })
 }
 
-function login(req, res) {
-  passport.authenticate("local-login", {
-    successRedirect: "/",
-    failureRedirect: "/",
-    failureFlash: true
-  })
-}
+// To authenticate login attempt.
+var login = passport.authenticate("local-login", {
+  successRedirect: "/",
+  failureRedirect: "/",
+  failureFlash: true
+})
 
-function fbAuth(req, res) {
-  passport.authenticate("facebook", {scope: ["email"]})
-}
+var fbAuth = passport.authenticate("facebook", {scope: ["email"]})
 
-function fbAuthCallback(req, res) {
-  passport.authenticate("facebook", {
-    successRedirect: "/",
-    failureRedirect: "/"
-  })
-}
+var fbAuthCallback = passport.authenticate("facebook", {
+  successRedirect: "/",
+  failureRedirect: "/"
+})
 
 function logout(req, res) {
   req.logout()
