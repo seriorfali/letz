@@ -11,10 +11,16 @@ $(function() {
       // Style of map.
       var styledMap = new google.maps.StyledMapType([
         {
-          featureType: 'all',
+          featureType: 'road.local',
           elementType: 'labels.text',
           stylers: [
             {visibility: 'off'}
+          ]
+        }, {
+          featureType: 'road.arterial',
+          elementType: 'labels.text',
+          stylers: [
+            {visibility: 'on'}
           ]
         }, {
           featureType: 'road',
@@ -29,7 +35,7 @@ $(function() {
         }, {
           featureType: 'water',
           stylers: [
-            {saturation: -70}
+            {saturation: -80}
           ]
         }
       ])
