@@ -21,7 +21,7 @@ function show(req, res) {
 // To add user document to database.
 var add = passport.authenticate("local-signup", {
   successRedirect: "/",
-  failureRedirect: "/",
+  failureRedirect: "/fail",
 })
 
 // To update user document.
@@ -34,11 +34,10 @@ function update(req, res) {
 }
 
 // To delete user document from database.
-function destroy(req,res) {
-  User.findOneAndRemove({_id: req.params.id}, function(err){
-    if (err) console.log(err)
-    res.json({success: true, message: 'User destroyed.'})
-    res.redirect('/')
+function destroy(req, res) {
+  User.findOneAndRemove({_id: req.params.id}, function(err) {
+    if (err) throw err
+    res.redirect("/")
   })
 }
 

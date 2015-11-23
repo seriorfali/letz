@@ -29,11 +29,15 @@ app.use(passport.session())
 app.use("/public", express.static(__dirname + "/public"))
 
 // Database connection.
-mongoose.connect("mongodb://seriorfali:oolpI700#@ds045054.mongolab.com:45054/letz-app")
+mongoose.connect("mongodb://tripleS:uiop3!map@ds057214.mongolab.com:57214/letz-app")
 
 // API routes.
 var userRoutes = require("./routes/userRoutes.js")
 app.use("/api/users", userRoutes)
+
+app.get("/fail", function(req, res) {
+  res.send("User not added.")
+})
 
 // Frontend routes.
 app.get("*", function(req, res) {
