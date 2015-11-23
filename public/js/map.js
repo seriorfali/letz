@@ -36,7 +36,7 @@ $(function() {
         }, {
           featureType: 'water',
           stylers: [
-            {saturation: -80}
+            {saturation: -20}
           ]
         }
       ])
