@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(session({
-	secret: process.env.LETZ_SECRET,
+    secret: process.env.LETZ_SECRET,
   resave: true,
   saveUninitialized: true
 }))

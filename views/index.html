@@ -6,11 +6,22 @@
     <title></title>
     <link rel="stylesheet" href="/public/css/styles.css" media="screen" charset="utf-8">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+  $(function() {
+    $( "#dialog" ).dialog();
+  });
+  </script>
   </head>
   <body>
     <div class="container">
       <h1>username password letz</h1>
-      <div id="map"></div>
+      <div id="map"><div id="dialog" title="Chat Box">
+        <p>basic dialog</p>
+      </div>
+    </div>
     </div>
     <script type="text/javascript" src="/public/js/map.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDV8Q55c6BRM1Tw8rKQGWbC2SiVuVSknJI&signed_in=true"></script>
