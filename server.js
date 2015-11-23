@@ -12,6 +12,7 @@ var express = require("express")
     // To allow HTTP to be bound to same port as WebSockets.
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
+<<<<<<< HEAD
   // , webSocketsProvider = require("socket.io")(httpServer)
   , io   = require('socket.io')(httpServer)
   , connectedUsers = {}
@@ -19,6 +20,9 @@ var express = require("express")
   // Database connection.
   // mongoose.connect("mongodb://seriorfali:oolpI700#@ds045054.mongolab.com:45054/letz-app")
   mongoose.connect("mongodb://localhost/myapp")
+=======
+  , webSocketsProvider = require("socket.io")(httpServer)
+>>>>>>> da08b21e16d894c2d846a19a0a052563c4470adb
 
 // Middleware.
 app.use(logger("dev"))
@@ -33,8 +37,15 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use("/public", express.static(__dirname + "/public"))
+<<<<<<< HEAD
 
 
+=======
+
+// Database connection.
+mongoose.connect("mongodb://seriorfali:oolpI700#@ds045054.mongolab.com:45054/letz-app")
+
+>>>>>>> da08b21e16d894c2d846a19a0a052563c4470adb
 // API routes.
 var userRoutes = require("./routes/userRoutes.js")
 app.use("/api/users", userRoutes)
