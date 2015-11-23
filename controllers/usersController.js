@@ -12,7 +12,7 @@ function index(req, res) {
 
 // To return a single user document.
 function show(req, res) {
-  User.find({email: req.params.email}, function(err,user){
+  User.findById(req.params.id, function(err, user) {
     if(err) throw err
     res.json(user)
   })
@@ -26,19 +26,18 @@ var add = passport.authenticate("local-signup", {
 
 // To update user document.
 function update(req, res) {
-  User.findOneAndUpdate({_id: req.params.id}, req.body.User, {new: true},
-  function(err, user){
-    if (err) console.log(err)
+  User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true},
+  function(err, user) {
+    if(err) throw err
     res.json(user)
   })
 }
 
 // To delete user document from database.
-function destroy(req,res) {
-  User.findOneAndRemove({_id: req.params.id}, function(err){
-    if (err) console.log(err)
-    res.json({success: true, message: 'User destroyed.'})
-    res.redirect('/')
+function destroy(req, res) {
+  User.findOneAndRemove({_id: req.params.id}, function(err) {
+    if(err) throw err
+    res.redirect("/")
   })
 }
 
@@ -59,6 +58,8 @@ var fbAuthCallback = passport.authenticate("facebook", {
 function logout(req, res) {
   req.logout()
   res.redirect("/")
+  User.currentLocation = {}
+  User.currentStatus = ""
 }
 
 module.exports = {
