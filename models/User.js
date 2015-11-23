@@ -5,11 +5,11 @@ var mongoose = require('mongoose')
 // Schema for local and Facebook users.
 var userSchema = new Schema({
     local: {
-      email: {type: String, required: true,  unique: true},
-      password: {type: String, required: true},
+      email: {type: String},
+      password: {type: String},
       first_name: String,
       last_name: String,
-      dob: {type: Date, required: true},
+      dob: {type: Date},
       status: String
     },
     facebook: {

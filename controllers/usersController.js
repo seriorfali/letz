@@ -1,4 +1,5 @@
-var User = require('../models/User.js')
+var passport = require('passport')
+,   User = require('../models/User.js')
 
 //index shows all the users
 function index(req, res) {
@@ -17,10 +18,7 @@ function show(req, res) {
 
 //need to create action to show a single user
 function add(req, res) {
-  passport.authenticate("local-signup", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })
+  
 }
 
 function update(req, res) {

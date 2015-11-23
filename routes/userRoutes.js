@@ -1,10 +1,15 @@
 var express = require("express")
   , userRouter = express.Router()
+  , passport   = require('passport')
+  , passportConfig = require("../config/passport.js")
   , usersController = require("../controllers/usersController.js")
 
 userRouter.route("/")
   .get(usersController.showUsers)
-  .post(usersController.addUser)
+  .post(passport.authenticate("local-signup", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  }))
 
 userRouter.route("/:email")
   .get(usersController.showUser)
