@@ -9,24 +9,19 @@ var userSchema = new Schema({
       password: String,
       first_name: String,
       last_name: String,
-      dob: Date,
-      location: {
-        lat: Number,
-        lng: Number
-      },
-      status: String
+      dob: Date
     },
     facebook: {
       id: String,
       name: String,
       email: String,
-      token: String,
-      location: {
-        lat: Number,
-        lng: Number
-      },
-      status: String
-    }
+      token: String
+    },
+    currentLocation: {
+      lat: Number,
+      lng: Number
+    },
+    currentStatus: String
 })
 
 userSchema.methods.generateHash = function(password) {

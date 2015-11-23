@@ -6,7 +6,7 @@ userRouter.route("/")
   .get(usersController.showUsers)
   .post(usersController.addUser)
 
-userRouter.route("/:email")
+userRouter.route("/:id")
   .get(usersController.showUser)
   .put(usersController.updateUser)
   .delete(usersController.destroyUser)

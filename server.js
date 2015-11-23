@@ -35,10 +35,6 @@ mongoose.connect("mongodb://tripleS:uiop3!map@ds057214.mongolab.com:57214/letz-a
 var userRoutes = require("./routes/userRoutes.js")
 app.use("/api/users", userRoutes)
 
-app.get("/fail", function(req, res) {
-  res.send("User not added.")
-})
-
 // Frontend routes.
 app.get("*", function(req, res) {
   // res.render("index", {currentUser: req.user})
