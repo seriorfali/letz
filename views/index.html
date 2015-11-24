@@ -28,19 +28,6 @@
     	});
   	});
 
-
-
-    $( ".dialog" ).dialog();
-    $('.chat_stuff button').click(function(evt, target){
-      var self = this;
-      evt.preventDefault();
-      var message = {
-        body: $(self).prev().val(),
-        chatWindow: $(self).closest('.dialog').attr('data-chatNumber')
-      }
-      socket.emit('sendchat', message);
-      // socket send to server with text from the input field
-    })
   });
   </script>
   </head>
@@ -58,7 +45,7 @@
 
         <div class="dialog" title="Chat Box" data-chatNumber="67890">
           <ul class="messages"></ul>
-          <form class="chat_stuff" action="">
+          <form class="chats" action="">
             <input class="m" autocomplete="off" /><button>Send</button>
           </form>
         </div>

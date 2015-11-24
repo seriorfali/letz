@@ -12,7 +12,7 @@ var express = require("express")
     // To allow HTTP to be bound to same port as WebSockets.
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
-  , webSocketsProvider = require("socket.io").listen(httpServer)
+  , io = require("socket.io")(httpServer)
   , yelp           = require('./config/yelp.js');
 
 // Middleware.
@@ -43,11 +43,14 @@ app.get("*", function(req, res) {
 })
 
 // WebSocket callbacks.
-webSocketsProvider.on("connection", function(socket) {
+io.on("connection", function(socket) {
   console.log("A user connected.")
-  socket.on("sendchat", function(data) {
-    webSocketsProvider.sockets.emit("updatechat", data)
+  socket.on("chat message", function(data) {
+    io.emit("update chat", data)
 	})
+  socket.on("disconnect", function() {
+    console.log("User disconnected.")
+  })
 })
 
 // // YELP API!

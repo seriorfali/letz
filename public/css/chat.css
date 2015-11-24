@@ -23,11 +23,11 @@ form button {
    background: #eee;
  }
 
-.chat_stuff {
+.sendMessage {
   width: 95%;
   position: absolute;
 }
 
-.dialog {
+.chats {
   position: relative;
 }
