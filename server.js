@@ -13,6 +13,7 @@ var express = require("express")
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
   , webSocketsProvider = require("socket.io").listen(httpServer)
+  , yelp           = require('./config/yelp.js');
 
 // Middleware.
 app.use(logger("dev"))
@@ -52,6 +53,23 @@ webSocketsProvider.on("connection", function(socket) {
 		// we tell the client to execute 'updatechat' with 2 parameters
 
 	});
+})
+
+//YELP API!
+app.post('/api/search', function(req, res){
+  yelp.search({term: req.body.term, limit: 1, ll: req.body.ll})
+    .then(function (data) { //just runnin' that for loop all day long!
+      for (var i = 0; i < data.businesses.length; i++){
+        console.log(data.businesses[i].name);
+        console.log(data.businesses[i].url);
+        console.log(data.businesses[i].location);
+      }
+      console.log(data.businesses)
+      res.json(data.businesses)
+    })
+  .catch(function (err) {
+    console.error(err);
+  });
 })
 
 // Environment port.
