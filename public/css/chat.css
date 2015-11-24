@@ -46,6 +46,7 @@
     background-color: #F5F5F5;
 }
 
+<<<<<<< HEAD
 ::-webkit-scrollbar
 {
     width: 12px;
@@ -56,4 +57,13 @@
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
+=======
+.sendMessage {
+  width: 95%;
+  position: absolute;
+}
+
+.chats {
+  position: relative;
+>>>>>>> ccdb9077907e9e5bd581b94e46b8950b7f1cf1de
 }

@@ -180,10 +180,12 @@ $(function() {
       // Variable that represents number of chat windows open.
       var chats = 0
 
+      var chatWindow = "<div class='chats' id='chat" + chats + "'>" + "<ul class='messages'></ul>" + "<form class='sendMessage' action=''>" + "<input class='newMessages' autocomplete='off' /><button>Send</button>" + "</form>" "</div>"
+
       // AJAX request to open chat window when chat button is clicked.
       $(".startChat").click(function() {
         chats ++
-        $("#container").append("<div class='.chats' id='chat" + chats + "'></div>")
+        $("#container").append(chatWindow)
         $("#chat" + chats).load("../../views/chat.html")
       })
 >>>>>>> 75bb80c8f4850d97b8ff17b96138f27cd4f043eb
