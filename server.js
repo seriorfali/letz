@@ -12,7 +12,7 @@ var express = require("express")
     // To allow HTTP to be bound to same port as WebSockets.
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
-  , webSocketsProvider = require("socket.io")(httpServer)
+  , webSocketsProvider = require("socket.io").listen(httpServer)
 
 // Middleware.
 app.use(logger("dev"))
@@ -43,7 +43,15 @@ app.get("*", function(req, res) {
 
 // WebSocket callbacks.
 webSocketsProvider.on("connection", function(socket) {
-  console.log("A user connected.")
+  //console.log(webSocketsProvider)
+  console.log("A user connected.");
+  socket.on('sendchat', function (data) {
+    webSocketsProvider.sockets.emit('updatechat', data);
+
+
+		// we tell the client to execute 'updatechat' with 2 parameters
+
+	});
 })
 
 // Environment port.
