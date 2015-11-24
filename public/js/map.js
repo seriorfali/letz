@@ -3,12 +3,26 @@ $(function() {
   if (navigator.geolocation) {
     // Browser supports geolocation.
     console.log("Geolocation supported.")
+    // Retrieve current user document and save to variable.
+    var currentUser;
+    $.get("/api/users/current", success: function(user) {
+      currentUser = user
+    })
     // Periodically retrieve user's current location.
     navigator.geolocation.watchPosition(function(position) {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }
+      // Update current user document location with current location.
+      $.ajax({
+        url: "/api/users/" + currentUser._id,
+        method: "PUT",
+        data: {currentLocation: pos},
+        success: function(updatedUser) {
+          currentUser = updatedUser
+        }
+      })
       // Style of map.
       var styledMap = new google.maps.StyledMapType([
         {
@@ -36,7 +50,7 @@ $(function() {
         }, {
           featureType: 'water',
           stylers: [
-            {saturation: -80}
+            {saturation: -20}
           ]
         }
       ])
@@ -57,6 +71,20 @@ $(function() {
 
       map.mapTypes.set('styledMap', styledMap)
       map.setMapTypeId('styledMap')
+
+      // To retrieve all user documents.
+      $.get("/api/users", success: function(users) {
+        for (user in users) {
+          // If user is currently located within the map area, represent that user with a marker on the map.
+          if map.getBounds().contains(user.currentLocation) {
+            var userMarker = new google.maps.Marker({
+              map: map,
+              position: user.currentLocation,
+              title: (user.local.first_name + " " + user.local.last_name) || user.facebook.name
+            })
+          }
+        }
+      })
     })
   } else {
     // Browser doesn't support geolocation.
