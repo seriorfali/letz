@@ -6,11 +6,11 @@ module.exports = {
       "profileFields": ["emails", "displayName"]
   } ,
    "yelpAuth": {
-   "oauth_consumer_key": "aXYVJiMRADRj7lPUeQwiqg",
-   "oauth_token": "3rxm2icV9K7TMdf8e2-uYAbKS0IIbptm",
+   "oauth_consumer_key": "aXYVJiMRADRj7lPUeQwiqg", //Ivy's OAuth Consumer Key
+   "oauth_token": "3rxm2icV9K7TMdf8e2-uYAbKS0IIbptm", //Ivy's OAuth token
    "oauth_signature_method": "HMAC-SHA1",
    "oauth_version": "1.0",
-   "consumerSecret": "6I0h-1lPyTLDPD8Avq86HwiMVOM",
-   "tokenSecret": "F2teTYsVWz7eGpkm5p8_9_XsbD4"
+   "consumerSecret": "vHy5UTulUyMF5H37yZs5XeNTC_g", //Sean's Yelp Key
+   "tokenSecret": "BisfuztfkNd1C_POONpknPoMB2k" //Sean's Yelp Key
   }
 }
