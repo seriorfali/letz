@@ -9,7 +9,7 @@ $(function() {
       currentUser = user
     })
     // Periodically retrieve user's current location.
-    navigator.geolocation.watchPosition(function(position) {
+    navigator.geolocation.watchPosition(function(position)) {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude

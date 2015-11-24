@@ -2,7 +2,7 @@
   margin: 0; padding: 0; box-sizing: border-box;
 }
 body {
-  font: 25px Impact, Arial;
+  font: 13px Impact, Arial;
 }
 form {
   background: rebeccapurple; padding: 3px; position: fixed; bottom: 0; width: 100%;
@@ -13,8 +13,15 @@ form input {
 form button {
   width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;
 }
+
+#send-button {
+width: 50%;
+
+}
 .messages {
   list-style-type: none; margin: 0; padding: 0;
+  position:absolute;
+  align-self: auto;
 }
 .messages li {
   padding: 5px 10px;
