@@ -55,6 +55,10 @@ var fbAuthCallback = passport.authenticate("facebook", {
   failureRedirect: "/"
 })
 
+function showCurrentUser(req, res) {
+  res.json(req.user)
+}
+
 function logout(req, res) {
   req.logout()
   res.redirect("/")
@@ -71,5 +75,6 @@ module.exports = {
   login: login,
   fbAuth: fbAuth,
   fbAuthCallback: fbAuthCallback,
+  showCurrentUser: showCurrentUser,
   logout: logout
 }

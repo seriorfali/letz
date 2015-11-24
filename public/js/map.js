@@ -3,12 +3,26 @@ $(function() {
   if (navigator.geolocation) {
     // Browser supports geolocation.
     console.log("Geolocation supported.")
+    // Retrieve current user document and save to variable.
+    var currentUser;
+    $.get("/api/users/current", success: function(user) {
+      currentUser = user
+    })
     // Periodically retrieve user's current location.
     navigator.geolocation.watchPosition(function(position) {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }
+      // Update current user document location with current location.
+      $.ajax({
+        url: "/api/users/" + currentUser._id,
+        method: "PUT",
+        data: {currentLocation: pos},
+        success: function(updatedUser) {
+          currentUser = updatedUser
+        }
+      })
       // Style of map.
       var styledMap = new google.maps.StyledMapType([
         {
