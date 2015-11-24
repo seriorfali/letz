@@ -72,16 +72,24 @@ $(function() {
       map.mapTypes.set('styledMap', styledMap)
       map.setMapTypeId('styledMap')
 
+      // To add marker on map.
+      function addMarker(map, position, title) {
+        var marker = new google.maps.Marker({
+          map: map,
+          position: position,
+          title: title
+        })
+      }
+
+      // Put marker at current user's current location.
+      var currentUserMarker = addMarker(map, currentUser.currentLocation, currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name)
+
       // To retrieve all user documents.
       $.get("/api/users", success: function(users) {
         for (user in users) {
           // If user is currently located within the map area, represent that user with a marker on the map.
           if map.getBounds().contains(user.currentLocation) {
-            var userMarker = new google.maps.Marker({
-              map: map,
-              position: user.currentLocation,
-              title: (user.local.first_name + " " + user.local.last_name) || user.facebook.name
-            })
+            var userMarker = addMarker(map, user.currentLocation, user.local.first_name + " " + user.local.last_name) || user.facebook.name)
           }
         }
       })
