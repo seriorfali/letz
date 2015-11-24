@@ -135,7 +135,7 @@ $(function() {
           map: map,
           position: user.currentLocation,
           title: (user.local.first_name + " " + user.local.last_name) || user.facebook.name,
-          infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</p><br>" + "<p class='infoAge'" + getAge(user.local.dob || user.facebook.dob) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p>" + "</div>",
+          infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</p><br>" + "<p class='infoAge'" + getAge(user.local.dob || user.facebook.dob) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + "<button class='startChat' type='button'>CHAT</button>" + "</div>",
           user: user
         })
         if (currentUser.currentStatus) {
@@ -173,7 +173,20 @@ $(function() {
           displayInfo(map, userMarker)
         })
       }
+<<<<<<< HEAD
 >>>>>>> ec9f66ac5549ac07ac11f628ab9cc88c19247231
+=======
+
+      // Variable that represents number of chat windows open.
+      var chats = 0
+
+      // AJAX request to open chat window when chat button is clicked.
+      $(".startChat").click(function() {
+        chats ++
+        $("#container").append("<div class='.chats' id='chat" + chats + "'></div>")
+        $("#chat" + chats).load("../../views/chat.html")
+      })
+>>>>>>> 75bb80c8f4850d97b8ff17b96138f27cd4f043eb
     })
 
     // Array to hold all user markers.
@@ -205,7 +218,7 @@ $(function() {
     })
   } else {
     // Browser doesn't support geolocation.
-    $("#map").append("To continue, please consent to location sharing in your browser.")
+    $("#map").append("<div id='geolocationPrompt'>To continue, please consent to location sharing in your browser.</div>")
     console.log("Geolocation not supported.")
   }
 })
