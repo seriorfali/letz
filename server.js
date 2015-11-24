@@ -44,33 +44,28 @@ app.get("*", function(req, res) {
 
 // WebSocket callbacks.
 webSocketsProvider.on("connection", function(socket) {
-  //console.log(webSocketsProvider)
-  console.log("A user connected.");
-  socket.on('sendchat', function (data) {
-    webSocketsProvider.sockets.emit('updatechat', data);
-
-
-		// we tell the client to execute 'updatechat' with 2 parameters
-
-	});
+  console.log("A user connected.")
+  socket.on("sendchat", function(data) {
+    webSocketsProvider.sockets.emit("updatechat", data)
+	})
 })
 
-//YELP API!
-app.post('/api/search', function(req, res){
-  yelp.search({term: req.body.term, limit: 1, ll: req.body.ll})
-    .then(function (data) { //just runnin' that for loop all day long!
-      for (var i = 0; i < data.businesses.length; i++){
-        console.log(data.businesses[i].name);
-        console.log(data.businesses[i].url);
-        console.log(data.businesses[i].location);
-      }
-      console.log(data.businesses)
-      res.json(data.businesses)
-    })
-  .catch(function (err) {
-    console.error(err);
-  });
-})
+// // YELP API!
+// app.post("/api/recommendations", function(req, res) {
+//   yelp.search({term: req.body.term, limit: 1, ll: req.body.ll})
+//     .then(function(data) {
+//       // for (var i = 0; i < data.businesses.length; i++){
+//       //   console.log(data.businesses[i].name);
+//       //   console.log(data.businesses[i].url);
+//       //   console.log(data.businesses[i].location);
+//       // }
+//       // console.log(data.businesses)
+//       res.json(data.businesses)
+//     })
+//   .catch(function (err) {
+//     console.log(err)
+//   })
+// })
 
 // Environment port.
 var port = process.env.PORT || 3000
