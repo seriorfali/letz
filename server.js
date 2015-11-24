@@ -37,9 +37,14 @@ var userRoutes = require("./routes/userRoutes.js")
 app.use("/api/users", userRoutes)
 
 // Frontend routes.
-app.get("*", function(req, res) {
+app.get("/", function(req, res) {
   // res.render("index", {currentUser: req.user})
   res.sendFile(__dirname + "/views/index.html")
+})
+
+app.get("/api/chat", function(req, res) {
+  // res.render("index", {currentUser: req.user})
+  res.sendFile(__dirname + "/views/chat.html")
 })
 
 // WebSocket callbacks.
