@@ -1,14 +1,8 @@
-$(function() {
+$(function generateMap() {
   // If browser supports geolocation, display map centered on current location; otherwise, prompt user to consent to location sharing.
   if (navigator.geolocation) {
     // Browser supports geolocation.
     console.log("Geolocation supported.")
-
-    // Retrieve current user document and save to variable.
-    var currentUser
-    $.get("/api/users/current", success: function(user) {
-      currentUser = user
-    })
 
     // Periodically retrieve user's current location.
     navigator.geolocation.watchPosition(function(position) {
@@ -225,4 +219,18 @@ $(function() {
     $("#map").append("<div id='geolocationPrompt'>To continue, please consent to location sharing in your browser.</div>")
     console.log("Geolocation not supported.")
   }
+}
+
+// Retrieve current user document and save to variable.
+var currentUser
+$.get("/api/users/current", success: function(user) {
+  currentUser = user
+})
+
+// To load landing page if no current user, and map otherwise.
+if (!currentUser) {
+  $("#container").load("../../views/landing.html")
+} else {
+  $("#container").load("../../views/map.html")
+  generateMap()
 })
