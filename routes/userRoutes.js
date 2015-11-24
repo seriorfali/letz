@@ -13,6 +13,8 @@ userRouter.route("/:id")
 
 userRouter.post("/login", usersController.login)
 
+userRouter.get("/current", usersController.showCurrentUser)
+
 userRouter.get("/logout", usersController.logout)
 
 // Facebook routes.
