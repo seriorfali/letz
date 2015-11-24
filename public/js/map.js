@@ -71,6 +71,20 @@ $(function() {
 
       map.mapTypes.set('styledMap', styledMap)
       map.setMapTypeId('styledMap')
+
+      // To retrieve all user documents.
+      $.get("/api/users", success: function(users) {
+        for (user in users) {
+          // If user is currently located within the map area, represent that user with a marker on the map.
+          if map.getBounds().contains(user.currentLocation) {
+            var userMarker = new google.maps.Marker({
+              map: map,
+              position: user.currentLocation,
+              title: (user.local.first_name + " " + user.local.last_name) || user.facebook.name
+            })
+          }
+        }
+      })
     })
   } else {
     // Browser doesn't support geolocation.
