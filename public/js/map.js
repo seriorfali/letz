@@ -230,6 +230,7 @@ $.get("/api/users/current", success: function(user) {
 // To load landing page if no current user, and map otherwise.
 if (!currentUser) {
   $("#container").load("../../views/landing.html")
+  loadLoginSignup()
 } else {
   $("#container").load("../../views/map.html")
   generateMap()

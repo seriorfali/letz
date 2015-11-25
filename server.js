@@ -4,7 +4,6 @@ var express = require("express")
   , mongoose = require("mongoose")
   , logger = require("morgan")
   , bodyParser = require("body-parser")
-  , cookieParser = require("cookie-parser")
   , session = require("express-session")
   , passport = require("passport")
   , passportConfig = require("./config/passport.js")
@@ -19,7 +18,6 @@ var express = require("express")
 app.use(logger("dev"))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-app.use(cookieParser())
 app.use(session({
     secret: process.env.LETZ_SECRET,
   resave: true,
