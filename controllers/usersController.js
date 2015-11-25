@@ -19,10 +19,18 @@ function show(req, res) {
 }
 
 // To add user document to database.
-var add = passport.authenticate("local-signup", {
-  successRedirect: "/",
-  failureRedirect: "/",
-})
+// var add = passport.authenticate("local-signup", {
+//   successRedirect: "/",
+//   failureRedirect: "/",
+// })
+
+var add = function(req,res){
+  passport.authenticate("local-signup", function(){
+
+    //////////////
+    res.json(user)
+  })
+}
 
 // To update user document.
 function update(req, res) {

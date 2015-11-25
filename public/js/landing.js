@@ -8,10 +8,23 @@ function loadLoginSignup() {
       $("#signupButton").click(function() {
         $("#buttonsForms").load("/public/views/partials/signup.html", function(response, status) {
           if (status === "success") {
-            signup()
-          } else if (status === "failure") {
-            console.log("Unable to load signup form.")
-          }
+          console.log('its succes')
+           signup()
+         }
+          // } else if (status === "failure") {
+          //   console.log("Unable to load signup form.")
+          // }
+          $("signupSubmit").click(function(evt) {
+            evt.preventDefault()
+            console.log("we are in the function")
+            $.post("/api/users", {
+              first_name: $("#signupFirstName").val(),
+              last_name: $("#signupLastName").val(),
+              email: $("#signupEmail").val(),
+              dob: $("#signupDob").val(),
+              password: $("#signupPassword").val()
+            })
+          })
         })
       })
     } else if (status === "failure") {
