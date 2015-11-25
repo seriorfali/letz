@@ -36,8 +36,7 @@ app.use("/api/users", userRoutes)
 
 // Frontend routes.
 app.get("*", function(req, res) {
-  // res.render("index", {currentUser: req.user})
-  res.sendFile(__dirname + "/views/index.html")
+  res.sendFile(__dirname + "/public/views/index.html")
 })
 
 // WebSocket callbacks.
