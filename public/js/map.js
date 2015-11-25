@@ -1,12 +1,10 @@
-$(function() {
-  // If browser supports geolocation, display map centered on current location; otherwise, prompt user to consent to location sharing.
-  function generateMap() {
-    // Retrieve current user document and save to variable.
-    var currentUser
-    $.get("/api/users/current", function(user) {
-      currentUser = user
-    })
-
+var currentUser
+// If browser supports geolocation, display map centered on current location; otherwise, prompt user to consent to location sharing.
+function generateMap() {
+  // Retrieve current user document and save to variable.
+  $.get("/api/users/current")
+  .done(function(user) {
+    currentUser = user
     if (navigator.geolocation) {
       // Browser supports geolocation.
       console.log("Geolocation supported.")
@@ -78,8 +76,9 @@ $(function() {
         map.setMapTypeId('styledMap')
 
         // To calculate user's age.
-        function getAge(dob) {
+        function getAge(user) {
           var today = new Date()
+          var dob = new Date(user.local.dob || user.facebook.dob)
           var age = today.getFullYear() - dob.getFullYear()
           var monthDiff = today.getMonth() - dob.getMonth()
           if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
@@ -91,7 +90,7 @@ $(function() {
         // To calculate similarity of user's age to current user's age.
         function getSimAge(user) {
           var simAge
-          if ((user.local.dob || user.facebook.dob) >= (currentUser.local.dob || currentUser.facebook.dob) - 10 && (user.local.dob || user.facebook.dob) <= (currentUser.local.dob || currentUser.facebook.dob) + 10) {
+          if ((getAge(user) >= getAge(currentUser) - 10) && (getAge(user) <= getAge(currentUser) + 10)) {
             simAge = 1
           } else {
             simAge = 0
@@ -142,7 +141,7 @@ $(function() {
             map: map,
             position: user.currentLocation,
             title: (user.local.first_name + " " + user.local.last_name) || user.facebook.name,
-            infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</p><br>" + "<p class='infoAge'" + getAge(user.local.dob || user.facebook.dob) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + "<button class='startChat' type='button'>CHAT</button>" + "</div>",
+            infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</p><br>" + "<p class='infoAge'" + getAge(user) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + "<button class='startChat' type='button'>CHAT</button>" + "</div>",
             user: user
           })
           if (currentUser.currentStatus) {
@@ -158,13 +157,15 @@ $(function() {
         // To retrieve all user documents.
         $.get("/api/users", function(users) {
           for (user in users) {
-            // If user is currently located within the map area, represent that user with a marker on the map.
-            if (map.getBounds().contains(user.currentLocation)) {
-              var userMarker = addMarker(map, user)
-              userMarkers.push(userMarker)
+            if (user.currentLocation) {
+              // If user is currently located within the map area, represent that user with a marker on the map.
+              if (map.getBounds().contains(user.currentLocation)) {
+                var userMarker = addMarker(map, user)
+                userMarkers.push(userMarker)
+              }
             }
           }
-        })
+        }, "json")
 
         // To display info window containing user information.
         function displayInfo(map, marker) {
@@ -227,5 +228,5 @@ $(function() {
       $("#map").append("<div id='geolocationPrompt'>To continue, please consent to location sharing in your browser.</div>")
       console.log("Geolocation not supported.")
     }
-  }
-})
+  })
+}

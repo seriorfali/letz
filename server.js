@@ -2,6 +2,7 @@
 var express = require("express")
   , app = express()
   , mongoose = require("mongoose")
+  , flash = require("connect-flash")
   , logger = require("morgan")
   , bodyParser = require("body-parser")
   , session = require("express-session")
@@ -12,7 +13,7 @@ var express = require("express")
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
   , io = require("socket.io")(httpServer)
-  , yelp           = require('./config/yelp.js');
+  , yelp = require('./config/yelp.js')
 
 // Middleware.
 app.use(logger("dev"))

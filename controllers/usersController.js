@@ -5,7 +5,7 @@ var passport = require('passport')
 // To return all user documents.
 function index(req, res) {
   User.find({},function(err, users){
-    if(err) throw err
+    if (err) throw err
     res.json(users)
   })
 }
@@ -13,30 +13,31 @@ function index(req, res) {
 // To return a single user document.
 function show(req, res) {
   User.findById(req.params.id, function(err, user) {
-    if(err) throw err
+    if (err) throw err
     res.json(user)
   })
 }
 
 // To add user document to database.
-// var add = passport.authenticate("local-signup", {
-//   successRedirect: "/",
-//   failureRedirect: "/",
-// })
-
-var add = function(req,res){
-  passport.authenticate("local-signup", function(){
-
-    //////////////
-    res.json(user)
-  })
+function add(req, res, next) {
+  passport.authenticate("local-signup", function(err, user) {
+    if (err) throw err
+    if (!user) {
+      console.log("User not added.")
+    } else {
+      req.logIn(user, function(err) {
+        if (err) throw err
+        res.json(user)
+      })
+    }
+  })(req, res, next)
 }
 
 // To update user document.
 function update(req, res) {
   User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true},
   function(err, user) {
-    if(err) throw err
+    if (err) throw err
     res.json(user)
   })
 }
@@ -44,7 +45,7 @@ function update(req, res) {
 // To delete user document from database.
 function destroy(req, res) {
   User.findOneAndRemove({_id: req.params.id}, function(err) {
-    if(err) throw err
+    if (err) throw err
     res.redirect("/")
   })
 }
