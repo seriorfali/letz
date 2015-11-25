@@ -56,6 +56,7 @@ var fbAuthCallback = passport.authenticate("facebook", {
 })
 
 function showCurrentUser(req, res) {
+  console.log(req.user)
   res.json(req.user)
 }
 
