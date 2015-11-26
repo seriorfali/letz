@@ -24,9 +24,9 @@ passport.use("local-signup", new LocalStrategy({
   passReqToCallback: true
 }, function(req, email, password, done) {
   User.findOne({"local.email": email}, function(err, user) {
-    if(err) return done(err)
-    if(user) return done(null, false, req.flash("signupMessage", "That email is already taken."))
-    if(email.length === 0) return done(null, false, req.flash("signupMessage", "Please enter your email."))
+    if (err) return done(err)
+    if (user) return done(null, false, req.flash("signupMessage", "That email is already taken."))
+    if (email.length === 0) return done(null, false, req.flash("signupMessage", "Please enter your email."))
     // If no error and email is not taken, add new user to database.
     var newUser = new User()
     newUser.local.email = email
@@ -48,10 +48,10 @@ passport.use("local-login", new LocalStrategy({
   passReqToCallback: true
 }, function(req, email, password, done){
   User.findOne({"local.email": email}, function(err, user) {
-    if(err) throw err
+    if (err) throw err
     // If user not in database, send message to browser indicating such.
-    if(!user) return done(null, false, req.flash("loginMessage", "No user found."))
-    if(!user.validPassword(password)) return done(null, false, req.flash("loginMessage", "Invalid credentials."))
+    if (!user) return done(null, false, req.flash("loginMessage", "No user found."))
+    if (!user.validPassword(password)) return done(null, false, req.flash("loginMessage", "Invalid credentials."))
     return done(null, user)
   })
 }))
@@ -63,8 +63,8 @@ passport.use(new FacebookStrategy({
     profileFields: configAuth.facebookAuth.profileFields
 }, function(token, refreshToken, profile, done) {
   User.findOne({"facebook.id": profile.id}, function(err, user) {
-    if(err) return done(err)
-    if(user) {
+    if (err) return done(err)
+    if (user) {
       return done(null, user)
     } else {
       var newUser = new User()

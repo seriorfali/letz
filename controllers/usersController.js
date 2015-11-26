@@ -25,7 +25,7 @@ function add(req, res, next) {
     if (!user) {
       console.log("User not added.")
     } else {
-      req.logIn(user, function(err) {
+      req.login(user, function(err) {
         if (err) throw err
         res.json(user)
       })
@@ -51,11 +51,19 @@ function destroy(req, res) {
 }
 
 // To authenticate login attempt.
-var login = passport.authenticate("local-login", {
-  successRedirect: "/",
-  failureRedirect: "/",
-  failureFlash: true
-})
+function login(req, res, next) {
+  passport.authenticate("local-login", function(err, user) {
+    if (err) throw err
+    if (!user) {
+      console.log("User not found.")
+    } else {
+      req.login(user, function(err) {
+        if (err) throw err
+        res.json(user)
+      })
+    }
+  })(req, res, next)
+}
 
 var fbAuth = passport.authenticate("facebook", {scope: ["email"]})
 

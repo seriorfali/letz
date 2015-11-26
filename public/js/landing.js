@@ -2,7 +2,13 @@ function loadLoginSignup() {
   $("#buttonsForms").load("/public/views/partials/loginSignup.html", function(response, status) {
     if (status === "success") {
       $("#loginButton").click(function() {
-        $("#buttonsForms").load("/public/views/partials/login.html")
+        $("#buttonsForms").load("/public/views/partials/login.html", function(response, status) {
+          if (status === "success") {
+            login()
+          } else if (status === "failure") {
+            console.log("Unable to load login form.")
+          }
+        })
       })
 
       $("#signupButton").click(function() {
