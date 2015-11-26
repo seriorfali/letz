@@ -147,26 +147,32 @@ function generateMap() {
             } else {
               marker.setIcon("http://maps.google.com/mapfiles/ms/icons/purple-dot.png")
             }
+            return marker
           }
 
           // To put marker at current user's current location.
           var currentUserMarker = addMarker(map, currentUser)
 
-          // To retrieve all user documents.
-          $.get("/api/users")
-          .done(function(users) {
-            for (u in users) {
-              user = users[u]
-              if (user.currentLocation) {
-                currentLocation = new google.maps.LatLng(user.currentLocation.lat, user.currentLocation.lng)
-                // If user is currently located within the map area, represent that user with a marker on the map.
-                if (map.getBounds().contains(currentLocation)) {
-                  var userMarker = addMarker(map, user)
-                  userMarkers.push(userMarker)
+          // AJAX request to retrieve all user documents.
+          var displayMarkers = new Promise(function(resolve, reject) {
+            $.get("/api/users")
+            // If AJAX request to retrieve all user documents succeeds, represent each user who has a value for current location and is currently located within map area with a market on map.
+            .done(function(users) {
+              // Array to hold all user markers.
+              var userMarkers = []
+              for (u in users) {
+                user = users[u]
+                if (user.currentLocation) {
+                  // Turn user's current coordinates into Google LatLng object.
+                  currentLocation = new google.maps.LatLng(user.currentLocation.lat, user.currentLocation.lng)
+                  if (map.getBounds().contains(currentLocation)) {
+                    var userMarker = addMarker(map, user)
+                    userMarkers.push(userMarker)
+                  }
                 }
               }
-            }
-            console.log(userMarkers)
+              resolve(userMarkers)
+            })
           })
 
           // To display info window containing user information.
@@ -177,12 +183,15 @@ function generateMap() {
             infoWindow.open(map, marker)
           }
 
-          // To display user information when marker is clicked.
-          for (var userMarker in userMarkers) {
-            userMarker.addListener("click", function() {
-              displayInfo(map, userMarker)
-            })
-          }
+          displayMarkers.then(function(userMarkers) {
+            // To display user information when marker is clicked.
+            for (var m in userMarkers) {
+              var userMarker = userMarkers[m]
+              userMarker.addListener("click", function() {
+                displayInfo(map, this)
+              })
+            }
+          })
 
           // Variable that represents number of chat windows open.
           var chats = 0
@@ -199,9 +208,6 @@ function generateMap() {
         })
       })
 
-      // Array to hold all user markers.
-      var userMarkers = []
-
       // HTML for overlay that prompts user to declare status.
       var statusOverlay = "<div id='statusOverlay'>" + "<p id='statusPrompt'>What are you in the mood for?</p>" + "<form id='statusForm'>" + "<select id='statusDropdown' form='statusForm' required='required'>" + "<option class='statusOptions' value='food'>Food</option>" + "<option class='statusOptions' value='coffee'>Coffee/Tea</option>" + "<option class='statusOptions' value='movie'>Movie</option>" + "<option class='statusOptions' value='stroll'>Stroll</option>" + "<option class='statusOptions' value='exercise'>Exercise</option>" + "<option class='statusOptions' value='recreation'>Recreation</option>" + "<option class='statusOptions' value='shopping'>Shopping</option>" + "<option class='statusOptions' value='sightseeing'>Sightseeing</option>" + "<option class='statusOptions' value='party'>Party</option>" + "<option class='statusOptions' value='concert'>Concert</option>" + "</select>" + "</form>" + "</div>"
 
@@ -216,15 +222,18 @@ function generateMap() {
         $.ajax({
           url: "/api/users/" + currentUser._id,
           method: "PUT",
-          data: {currentStatus: status},
-          success: function(updatedUser) {
-            currentUser = updatedUser
+          data: {currentStatus: status}
+        })
+        .done(function(updatedUser) {
+          currentUser = updatedUser
+          $("#statusOverlay").remove()
+          for (var userMarker in userMarkers) {
+            colorizeMarker(userMarker)
           }
         })
-        $("#statusOverlay").remove()
-        for (var userMarker in userMarkers) {
-          colorizeMarker(userMarker)
-        }
+        .fail(function() {
+          console.log("Failed to update user document current status.")
+        })
       })
     } else {
       // Browser doesn't support geolocation.

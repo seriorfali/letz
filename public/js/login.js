@@ -4,7 +4,9 @@ function login() {
     $.post("/api/users/login", {
       email: $("#loginEmail").val(),
       password: $("#loginPassword").val()
-    }, function() {
+    })
+    // If AJAX post request succeeds (user is authenticated and a session is started), load map page.
+    .done(function() {
       $("#container").load("/public/views/map.html", function(response, status) {
         // If map page loads, generate user map.
         if (status === "success") {
@@ -15,6 +17,9 @@ function login() {
           console.log("Unable to load map.html.")
         }
       })
+    })
+    .fail(function() {
+      console.log("Failed to authenticate user and start session.")
     })
   })
 }

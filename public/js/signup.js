@@ -8,7 +8,9 @@ function signup() {
       email: $("#signupEmail").val(),
       dob: dob,
       password: $("#signupPassword").val()
-    }, function(user) {
+    })
+    // If AJAX post request succeeds (new user is added to database), load map page.
+    .done(function(user) {
       console.log(user)
       $("#container").load("/public/views/map.html", function(response, status) {
         // If map page loads, generate user map.
@@ -20,6 +22,10 @@ function signup() {
           console.log("Unable to load map.html.")
         }
       })
-    }, "json")
+    })
+    // If AJAX post request fails, log error to console.
+    .fail(function() {
+      console.log("Failed to add user to database.")
+    })
   })
 }
