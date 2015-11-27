@@ -2,6 +2,7 @@
 var express = require("express")
   , app = express()
   , mongoose = require("mongoose")
+  , flash = require("connect-flash")
   , logger = require("morgan")
   , bodyParser = require("body-parser")
   , session = require("express-session")
@@ -12,7 +13,7 @@ var express = require("express")
   , httpServer = http.Server(app)
     // To have provider of WebSockets connection to client listen at same port as HTTP.
   , io = require("socket.io")(httpServer)
-  , yelp           = require('./config/yelp.js');
+  , yelp = require('./config/yelp.js')
 
 // Middleware.
 app.use(logger("dev"))
@@ -35,13 +36,8 @@ var userRoutes = require("./routes/userRoutes.js")
 app.use("/api/users", userRoutes)
 
 // Frontend routes.
-
 app.get("*", function(req, res) {
   res.sendFile(__dirname + "/public/views/index.html")
-})
-app.get("/api/chat", function(req, res) {
-  // res.render("index", {currentUser: req.user})
-  res.sendFile(__dirname + "/views/chat.html")
 })
 
 // WebSocket callbacks.

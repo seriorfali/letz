@@ -27,21 +27,20 @@
     	});
   	});
 
-<<<<<<< HEAD
-    $( ".dialog" ).dialog();
-    $('.chat_stuff button').click(function(evt, target){
-      var self = this;
-      evt.preventDefault();
-      var message = {
-        body: $(self).prev().val(),
-        chatWindow: $(self).closest('.dialog').attr('data-chatNumber')
-      }
-      socket.emit('sendchat', message);
-      // socket send to server with text from the input field
-    })
-=======
->>>>>>> ccdb9077907e9e5bd581b94e46b8950b7f1cf1de
-  });
+  // 
+  //   $( ".dialog" ).dialog();
+  //   $('.chat_stuff button').click(function(evt, target){
+  //     var self = this;
+  //     evt.preventDefault();
+  //     var message = {
+  //       body: $(self).prev().val(),
+  //       chatWindow: $(self).closest('.dialog').attr('data-chatNumber')
+  //     }
+  //     socket.emit('sendchat', message);
+  //     // socket send to server with text from the input field
+  //   })
+  //
+  // });
   </script>
   </head>
   <body>

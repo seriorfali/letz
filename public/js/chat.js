@@ -5,7 +5,8 @@ $(function() {
     var currentUser
 
     // AJAX request to retrieve current user.
-    $.get("/api/users/current", function(user) {
+    $.get("/api/users/current")
+    .done(function(user) {
       currentUser = user
       console.log(currentUser)
     })
