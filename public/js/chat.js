@@ -45,6 +45,6 @@ function generateChat(users) {
   })
 
   socket.on("update chat", function(data) {
-    $(".chats[id='" + data.chatId + "'] .messages").append($("<li>"+ "<b>" + ((currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name) + "</b>" + " " + data.body + "<br>")))
+    $(".chats[id='" + data.chatId + "'] .messages").append($("<li>"+ "<b>" + ((currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name) + "</b>" + " " + data.body + "<br>"))
   })
 }
