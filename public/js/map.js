@@ -87,6 +87,8 @@ function generateMap() {
       })
 
       buildMap.then(function(map) {
+        receiveChatRequests()
+        
         // Periodically retrieve user's current location.
         navigator.geolocation.watchPosition(function(position) {
           var pos = {
