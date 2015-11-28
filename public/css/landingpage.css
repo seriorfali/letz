@@ -1,0 +1,37 @@
+#container{
+background-image: url("/public/images/alone3.jpg");
+background-size: 100% 100%;
+background-repeat: no-repeat;
+position: relative;
+}
+
+
+/* blue button */
+
+#signupButton {
+	background-color: white;
+	 border-top: black;
+	 border-right: black;
+	 border-bottom: black;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: black;
+	width: 200px;
+	height: 60px;
+	font-size: 40px;
+	position:absolute;
+	margin: 570px 150px 100px 525px;
+}
+
+
+
+#loginButton {
+	background-color: black;
+	border-color: black;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: white;
+	width: 200px;
+	height: 60px;
+	font-size: 40px;
+	position:absolute;
+	margin: 650px 150px 100px 700px;
+}
