@@ -9,6 +9,7 @@ position: relative;
 /* blue button */
 
 #signupButton {
+	font-family: 'Nunito', sans-serif;
 	background-color: white;
 	 border-top: black;
 	 border-right: black;
@@ -19,12 +20,13 @@ position: relative;
 	height: 60px;
 	font-size: 40px;
 	position:absolute;
-	margin: 570px 150px 100px 525px;
+	margin: 620px 150px 100px 525px;
 }
 
 
 
 #loginButton {
+	font-family: 'Nunito', sans-serif;
 	background-color: black;
 	border-color: black;
 	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
@@ -33,5 +35,5 @@ position: relative;
 	height: 60px;
 	font-size: 40px;
 	position:absolute;
-	margin: 650px 150px 100px 700px;
+	margin: 700px 150px 100px 700px;
 }

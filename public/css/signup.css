@@ -50,9 +50,9 @@
 
 
 body {
-	background-color: black;
+	background: #4EAFCD url("bg.png") repeat;
 
-	font-family: 'Oswald', sans-serif;
+	font-family: 'Nunito', sans-serif;
 }
 
 
