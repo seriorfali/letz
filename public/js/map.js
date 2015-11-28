@@ -1,10 +1,13 @@
 var currentUser
+  , socket
+
 // If browser supports geolocation, display map centered on current location; otherwise, prompt user to consent to location sharing.
 function generateMap() {
   // Retrieve current user document and save to variable.
   $.get("/api/users/current")
   .done(function(user) {
     currentUser = user
+
     if (navigator.geolocation) {
       // Browser supports geolocation.
       console.log("Geolocation supported.")
@@ -17,7 +20,7 @@ function generateMap() {
           }
 
           // Connection to socket.io.
-          var socket = io()
+          socket = io()
 
           socket.on("connect", function() {
             // Update current user document with current location and socket ID.
@@ -87,8 +90,9 @@ function generateMap() {
       })
 
       buildMap.then(function(map) {
+        console.log(socket)
         receiveChatRequests()
-        
+
         // Periodically retrieve user's current location.
         navigator.geolocation.watchPosition(function(position) {
           var pos = {
@@ -205,7 +209,6 @@ function generateMap() {
                     }
                   }
                 }
-                map.markers = userMarkers
                 resolve(userMarkers)
               })
             })
@@ -225,11 +228,12 @@ function generateMap() {
               for (var m in userMarkers) {
                 var userMarker = userMarkers[m]
                 userMarker.addListener("click", function() {
-                  var infoWindow = displayInfo(map, this)
+                  var userMarker = this
+                  var infoWindow = displayInfo(map, userMarker)
 
                   // AJAX request to open chat window when chat button is clicked.
                   $(".startChat").click(function() {
-                    sendChatRequest()
+                    sendChatRequest(userMarker, infoWindow)
                   })
                 })
               }

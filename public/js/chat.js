@@ -11,12 +11,14 @@ function receiveChatRequests() {
   })
 }
 
-function sendChatRequest() {
+function sendChatRequest(userMarker, infoWindow) {
   var targetUser = userMarker.user
+
+  console.log(targetUser)
 
   var sentRequest = "Chat request sent to " + ((targetUser.local.first_name + " " + targetUser.local.last_name) || targetUser.facebook.name) + "."
 
-  infoWindow.content = sentRequest
+  infoWindow.setContent(sentRequest)
 
   socket.emit("chat request", {targetUser: targetUser, requestingUser: currentUser})
 
@@ -45,6 +47,6 @@ function generateChat(users) {
   })
 
   socket.on("update chat", function(data) {
-    $(".chats[id='" + data.chatId + "'] .messages").append($("<li>"+ "<b>" + ((currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name) + "</b>" + " " + data.body + "<br>")))
+    $(".chats[id='" + data.chatId + "'] .messages").append($("<li>"+ "<b>" + ((currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name) + "</b>" + " " + data.body + "<br>"))
   })
 }
