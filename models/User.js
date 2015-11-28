@@ -21,7 +21,8 @@ var userSchema = new Schema({
       lat: Number,
       lng: Number
     },
-    currentStatus: String
+    currentStatus: String,
+    socketId: String
 })
 
 userSchema.methods.generateHash = function(password) {
