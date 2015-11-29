@@ -4,6 +4,11 @@ $.get("/api/users/current", function(user) {
   currentUser = user
 })
 
+function getName(user) {
+  var name = (user.local.first_name + " " + user.local.last_name) || user.facebook.name
+  return name
+}
+
 // To load landing page if no current user, and map otherwise.
 if (!currentUser) {
   $("#container").load("/public/views/landing.html", function(response, status) {
