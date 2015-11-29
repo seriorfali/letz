@@ -44,15 +44,20 @@ app.get("*", function(req, res) {
 io.on("connection", function(socket) {
   console.log("A user connected.")
   socket.on("chat request", function(data) {
+    var chatId = data.requestingUser.socketId + data.targetUser.socketId
     io.to(data.targetUser.socketId).emit("chat request", data)
   })
   socket.on("accepted request", function(data) {
-    socket.join(data.requestingUser.socketId + data.targetUser.socketId)
+    socket.join(data.chatId)
     io.to(data.requestingUser.socketId).emit("accepted request", data)
   })
   socket.on("chat message", function(data) {
     io.to(data.chatId).emit("update chat", data)
 	})
+  socket.on("left chat", function(data) {
+    socket.leave(data.chatId)
+    io.to(data.chatId).emit("someone left chat", data.leavingUser)
+  })
   socket.on("disconnect", function() {
     console.log("User disconnected.")
   })
