@@ -11,7 +11,7 @@ function getChat(chatId) {
   return identifiedChat
 }
 
-function receiveChatRequests() {
+function receiveChatRequestsAndInvites() {
   socket.on("chat request", function(data) {
     var requestingUser = data.users.requestingUser
     var chatRequest = "<div class='chatRequests'>" + "<p>" + getName(requestingUser) + " would like to chat." + "</p>" + "<button class='acceptChatRequest' type='button'>ACCEPT</button>" + "</div>"
@@ -23,18 +23,19 @@ function receiveChatRequests() {
       generateChat(data)
     })
   })
-}
 
-function receiveChatInvites() {
   socket.on("chat invite", function(data) {
-    var invitingUser = data.users.invitingUser
+    var invitingUser = data.invitingUser
     var chatInvite = "<div class='chatInvites'>" + "<p>" + getName(invitingUser) + " has invited you to a chat." + "</p>" + "<button class='acceptChatInvite' type='button'>ACCEPT</button>" + "</div>"
 
     $("#container").append(chatInvite)
 
     $(".acceptChatInvite").click(function() {
-      socket.emit("accepted invite", data)
-      generateChat(data)
+      socket.emit("accepted invite", {joiningUser: currentUser, chatId: chatId})
+      generateChat({
+        chatId: data.chatId,
+        users: data.users
+      })
     })
   })
 }
@@ -56,6 +57,7 @@ function sendChatRequest(userMarker, infoWindow) {
   })
 
   socket.on("accepted request", function(data) {
+    socket.emit("join chat", data)
     infoWindow.close()
     generateChat(data)
   })
@@ -69,12 +71,11 @@ function inviteToChat(userMarker, infoWindow, chatId) {
 
   infoWindow.setContent(sentInvite)
 
-  chat.users.invitedUsers.push(invitedUser)
-  chat.users.invitingUser = currentUser
-
   socket.emit("chat invite", {
     users: chat.users,
-    chatId: currentUser.socketId + targetUser.socketId
+    chatId: chatId,
+    invitedUser: invitedUser,
+    invitingUser: currentUser
   })
 
   socket.on("accepted invite", function(data) {
@@ -84,6 +85,7 @@ function inviteToChat(userMarker, infoWindow, chatId) {
 
 function generateChat(data) {
   var chatId = data.chatId
+    , chat = getChat(chatId)
 
   chats.push({
     id: data.chatId,
@@ -112,6 +114,11 @@ function generateChat(data) {
   $("#" + chatId).on("dialogueclose", function() {
     socket.emit("left chat", {leavingUser: currentUser, chatId: chatId})
   })
+
+  socket.on("someone joined chat", function(user) {
+    chat.invitedUsers.push(user)
+    $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + getName(user) + "</b>" + " has joined the chat.")
+  }
 
   socket.on("someone left chat", function(user) {
     $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + getName(user) + "</b>" + " has left the chat.")

@@ -91,7 +91,7 @@ function generateMap() {
 
       buildMap.then(function(map) {
         console.log(socket)
-        receiveChatRequests()
+        receiveChatRequestsAndInvites()
 
         // Periodically retrieve user's current location.
         navigator.geolocation.watchPosition(function(position) {
@@ -246,13 +246,20 @@ function generateMap() {
                     var chatOptions = ""
                     for (var c in chats) {
                       var chat = chats[c]
-                      var othersInChat = []
-                      for (var u in chat.users) {
-                        user = chat.users[u]
+                        , users = [chat.users.requestingUser, chat.users.targetUser]
+                        , othersInChat = []
+
+                      chat.users.invitedUsers.forEach(function(invitedUser) {
+                        users.push(invitedUser)
+                      })
+
+                      for (var u in users) {
+                        var user = chat.users[u]
                         if (user._id !== currentUser._id) {
                           othersInChat.push(getName(user))
                         }
                       }
+                      
                       chatOptions += "<option class='chatOptions' value='" + chat.id + "'>" + othersInChat.join(", ") + "</option>"
                     }
 
