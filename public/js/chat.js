@@ -56,5 +56,5 @@ function generateChat(data) {
 
   socket.on("someone left chat", function(user) {
     $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</b>" + " has left the chat.")
-  }
+  })
 }
