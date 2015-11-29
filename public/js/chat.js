@@ -20,7 +20,7 @@ function sendChatRequest(userMarker, infoWindow) {
 
   infoWindow.setContent(sentRequest)
 
-  socket.emit("chat request", {targetUser: targetUser, requestingUser: currentUser})
+  socket.emit("chat request", {targetUser: targetUser, requestingUser: currentUser, chatId: currentUser.socketId + targetUser.socketId})
 
   socket.on("accepted request", function(data) {
     infoWindow.close()
@@ -28,8 +28,8 @@ function sendChatRequest(userMarker, infoWindow) {
   })
 }
 
-function generateChat(users) {
-  var chatId = users.requestingUser.socketId + users.targetUser.socketId
+function generateChat(data) {
+  var chatId = data.chatId
 
   var chatWindow = "<div class='chats' id='" + chatId + "'>" + "<ul class='messages'></ul>" + "<form class='sendMessage' action=''>" + "<input class='newMessages' autocomplete='off' /><button>Send</button>" + "</form>" + "</div>"
 
@@ -47,6 +47,14 @@ function generateChat(users) {
   })
 
   socket.on("update chat", function(data) {
-    $(".chats[id='" + data.chatId + "'] .messages").append($("<li>"+ "<b>" + ((currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name) + "</b>" + " " + data.body + "<br>"))
+    $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + ((currentUser.local.first_name + " " + currentUser.local.last_name) || currentUser.facebook.name) + "</b>" + " " + data.body + "<br>")
   })
+
+  $("#" + chatId).on("dialogueclose", function() {
+    socket.emit("left chat", {leavingUser: currentUser, chatId: chatId})
+  })
+
+  socket.on("someone left chat", function(user) {
+    $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</b>" + " has left the chat.")
+  }
 }
