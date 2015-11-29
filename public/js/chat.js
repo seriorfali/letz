@@ -24,7 +24,7 @@ function sendChatRequest(userMarker, infoWindow) {
 
   socket.on("accepted request", function(data) {
     infoWindow.close()
-    generateChat()
+    generateChat(data)
   })
 }
 
