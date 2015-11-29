@@ -1,5 +1,16 @@
 var chats = []
 
+function getChat(chatId) {
+  var identifiedChat
+  for (var c in chats) {
+    var chat = chats[c]
+    if (chat.id === chatId) {
+      identifiedChat = chat
+    }
+  }
+  return identifiedChat
+}
+
 function receiveChatRequests() {
   socket.on("chat request", function(data) {
     var requestingUser = data.users.requestingUser
@@ -14,10 +25,22 @@ function receiveChatRequests() {
   })
 }
 
+function receiveChatInvites() {
+  socket.on("chat invite", function(data) {
+    var invitingUser = data.users.invitingUser
+    var chatInvite = "<div class='chatInvites'>" + "<p>" + getName(invitingUser) + " has invited you to a chat." + "</p>" + "<button class='acceptChatInvite' type='button'>ACCEPT</button>" + "</div>"
+
+    $("#container").append(chatInvite)
+
+    $(".acceptChatInvite").click(function() {
+      socket.emit("accepted invite", data)
+      generateChat(data)
+    })
+  })
+}
+
 function sendChatRequest(userMarker, infoWindow) {
   var targetUser = userMarker.user
-
-  console.log(targetUser)
 
   var sentRequest = "Chat request sent to " + getName(targetUser) + "."
 
@@ -27,6 +50,7 @@ function sendChatRequest(userMarker, infoWindow) {
     users: {
       targetUser: targetUser,
       requestingUser: currentUser
+      invitedUsers: []
     },
     chatId: currentUser.socketId + targetUser.socketId
   })
@@ -37,8 +61,25 @@ function sendChatRequest(userMarker, infoWindow) {
   })
 }
 
-function inviteToChat() {
+function inviteToChat(userMarker, infoWindow, chatId) {
+  var chat = getChat(chatId)
+    , invitedUser = userMarker.user
 
+  var sentInvite = "Invitation sent to " + getName(invitedUser) + "."
+
+  infoWindow.setContent(sentInvite)
+
+  chat.users.invitedUsers.push(invitedUser)
+  chat.users.invitingUser = currentUser
+
+  socket.emit("chat invite", {
+    users: chat.users,
+    chatId: currentUser.socketId + targetUser.socketId
+  })
+
+  socket.on("accepted invite", function(data) {
+    infoWindow.close()
+  })
 }
 
 function generateChat(data) {
