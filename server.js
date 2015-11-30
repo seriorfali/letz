@@ -91,7 +91,7 @@ io.on("connection", function(socket) {
 // })
 
 // Environment port.
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 2000
 
 httpServer.listen(port, function() {
   console.log("Server running on port " + port + ".")

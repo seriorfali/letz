@@ -1,6 +1,6 @@
 function signup() {
-  $("#signupSubmit").click(function(evt) {
-    evt.preventDefault()
+  $("#signupSubmit").click(function(event) {
+    event.preventDefault()
     dob = new Date($("#signupDob").val())
     $.post("/api/users", {
       first_name: $("#signupFirstName").val(),

@@ -1,6 +1,6 @@
 function login() {
-  $("#loginSubmit").click(function(evt) {
-    evt.preventDefault()
+  $("#loginSubmit").click(function(event) {
+    event.preventDefault()
     $.post("/api/users/login", {
       email: $("#loginEmail").val(),
       password: $("#loginPassword").val()
