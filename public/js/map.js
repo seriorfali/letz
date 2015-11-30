@@ -174,11 +174,17 @@ function generateMap() {
 
             // To add marker representing user on map.
             function addMarker(map, user) {
+              // If no chats currently open, only display button to start chat; otherwise, display buttons to start chat and invite user to an open chat.
+              var buttons = "<button class='startChat' type='button'>CHAT</button>"
+              if (chats.length > 0) {
+                buttons += "<button class='inviteToChat' type='button'>INVITE TO CHAT</button>"
+              }
+
               var marker = new google.maps.Marker({
                 map: map,
                 position: user.currentLocation,
-                title: (user.local.first_name + " " + user.local.last_name) || user.facebook.name,
-                infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + ((user.local.first_name + " " + user.local.last_name) || user.facebook.name) + "</p><br>" + "<p class='infoAge'" + getAge(user) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + "<button class='startChat' type='button'>CHAT</button>" + "</div>",
+                title: getName(user)
+                infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + getName(user) + "</p><br>" + "<p class='infoAge'" + getAge(user) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + buttons + "</div>",
                 user: user
               })
               if (currentUser.currentStatus) {
@@ -234,6 +240,32 @@ function generateMap() {
                   // AJAX request to open chat window when chat button is clicked.
                   $(".startChat").click(function() {
                     sendChatRequest(userMarker, infoWindow)
+                  })
+
+                  $(".inviteToChat").click(function() {
+                    var chatOptions = ""
+                    for (var c in chats) {
+                      var chat = chats[c]
+                      var othersInChat = []
+                      for (var u in chat.users) {
+                        user = chat.users[u]
+                        if (user._id !== currentUser._id) {
+                          othersInChat.push(getName(user))
+                        }
+                      }
+                      chatOptions += "<option class='chatOptions' value='" + chat.id + "'>" + othersInChat.join(", ") + "</option>"
+                    }
+
+                    var chatSelectionPrompt = "<b>Which chat?</b><br>" + "<form id='chatForm'>" + "<select id='chatDropdown' form='chatForm' required='required'>" + chatOptions + "</select>" + "</form>"
+
+                    infoWindow.setContent(chatSelectionPrompt)
+
+                    google.maps.event.addListenerOnce(infoWindow, "content_changed", function() {
+                      $("#chatDropdown").change(function() {
+                        var chatId = $(this).options[$(this).selectedIndex].val()
+                        inviteToChat(userMarker, infoWindow, chatId)
+                      })
+                    })
                   })
                 })
               }
