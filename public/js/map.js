@@ -12,6 +12,8 @@ function generateMap() {
       // Browser supports geolocation.
       console.log("Geolocation supported.")
 
+      $("#menu").css("color", "black")
+
       var buildMap = new Promise(function(resolve, reject) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -59,7 +61,12 @@ function generateMap() {
                 }, {
                   featureType: 'landscape.man_made',
                   stylers: [
-                    {color: '#bfbfbf'}
+                    {color: '#cccccc'}
+                  ]
+                }, {
+                  featureType: 'landscape.man_made',
+                  stylers: [
+                    {color: '#cccccc'}
                   ]
                 }, {
                   featureType: 'water',
@@ -276,7 +283,7 @@ function generateMap() {
 
                     google.maps.event.addListenerOnce(infoWindow, "content_changed", function() {
                       $("#chatDropdown").change(function() {
-                        var chatId = $(this).options[$(this).selectedIndex].val()
+                        var chatId = this.options[this.selectedIndex].value
                         inviteToChat(userMarker, infoWindow, chatId)
                       })
                     })
@@ -303,8 +310,7 @@ function generateMap() {
 
         // If status selected, update current user's current status with selection, remove status overlay from browser, and colorize user markers according to similarities in terms of age and declared status.
         statusDropdown.change(function() {
-          var status = $(this).options[$(this).selectedIndex].val()
-          console.log(status)
+          var status = this.options[this.selectedIndex].value
           $.ajax({
             url: "/api/users/" + currentUser._id,
             method: "PUT",
@@ -312,6 +318,7 @@ function generateMap() {
           })
           .done(function(updatedUser) {
             currentUser = updatedUser
+            console.log(currentUser)
             $("#statusOverlay").remove()
             for (var m in userMarkers) {
               var userMarker = userMarkers[m]

@@ -1,0 +1,18 @@
+#menu {
+  position: absolute;
+  top: 18px;
+  left: 15px;
+  color: whitesmoke;
+  z-index: 1;
+  padding: 7px 9px 6px 9.5px;
+  border-radius: 3px;
+  background-color: rgba(245, 245, 245, 0.3);
+}
+
+#menuButton {
+  font-size: 22px;
+}
+
+#menuOptions {
+  display: none;
+}

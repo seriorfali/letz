@@ -4,19 +4,16 @@ html, body {
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: 0; }
-
-#map {
-  height: 600px;
-  width: 100%;
-  margin-right: 0px;
-  padding: 0px;
-  display: inline-block;
+  padding: 0;
   position: relative; }
 
 #container {
   width: 100%;
   height: 100%;
-  position: relative; }
+	background-image: url("http://i.imgur.com/aaTsnPs.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: relative;
+}
 
 /*# sourceMappingURL=styles.css.map */

@@ -1,3 +1,12 @@
+#map {
+  height: 600px;
+  width: 100%;
+  margin-right: 0px;
+  padding: 0px;
+  display: inline-block;
+  position: relative;
+}
+
 #statusOverlay {
   width: 391px;
   height: 126px;
