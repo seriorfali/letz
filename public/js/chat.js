@@ -18,7 +18,8 @@ function receiveChatRequestsAndInvites() {
 
     $("#container").append(chatRequest)
 
-    $(".acceptChatRequest").click(function() {
+    $(".acceptChatRequest").click(function(event) {
+      event.preventDefault()
       socket.emit("accepted request", data)
       generateChat(data)
     })
@@ -30,7 +31,8 @@ function receiveChatRequestsAndInvites() {
 
     $("#container").append(chatInvite)
 
-    $(".acceptChatInvite").click(function() {
+    $(".acceptChatInvite").click(function(event) {
+      event.preventDefault()
       socket.emit("accepted invite", {joiningUser: currentUser, chatId: chatId})
       generateChat({
         chatId: data.chatId,
@@ -50,7 +52,7 @@ function sendChatRequest(userMarker, infoWindow) {
   socket.emit("chat request", {
     users: {
       targetUser: targetUser,
-      requestingUser: currentUser
+      requestingUser: currentUser,
       invitedUsers: []
     },
     chatId: currentUser.socketId + targetUser.socketId
@@ -99,16 +101,19 @@ function generateChat(data) {
   $("#" + chatId).dialog()
 
   // To send to server a message containing user chat message and chat window ID when send button clicked.
-  $(".sendMessage").submit(function() {
+  $(".sendMessage").submit(function(event) {
+    event.preventDefault()
     var message = {
+      sender: currentUser,
       body: $(this).children(".newMessages").val(),
       chatId: chatId
     }
     socket.emit("chat message", message)
+    $(this).children(".newMessages").val("")
   })
 
   socket.on("update chat", function(data) {
-    $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + getName(currentUser) + "</b>" + " " + data.body + "<br>")
+    $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + getName(data.sender) + "</b>" + " " + data.body + "<br>")
   })
 
   $("#" + chatId).on("dialogueclose", function() {
@@ -118,9 +123,9 @@ function generateChat(data) {
   socket.on("someone joined chat", function(user) {
     chat.invitedUsers.push(user)
     $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + getName(user) + "</b>" + " has joined the chat.")
-  }
+  })
 
   socket.on("someone left chat", function(user) {
     $(".chats[id='" + data.chatId + "'] .messages").append("<li>"+ "<b>" + getName(user) + "</b>" + " has left the chat.")
-  }
+  })
 }
