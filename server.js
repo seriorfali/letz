@@ -43,6 +43,27 @@ app.get("*", function(req, res) {
 // WebSocket callbacks.
 io.on("connection", function(socket) {
   console.log("A user connected.")
+<<<<<<< HEAD
+=======
+  socket.on("chat request", function(data) {
+    var chatId = data.users.requestingUser.socketId + data.users.targetUser.socketId
+    io.to(data.users.targetUser.socketId).emit("chat request", data)
+  })
+  socket.on("chat invite", function(data) {
+    io.to(data.invitedUser.socketId).emit("chat invite", data)
+  })
+  socket.on("accepted request", function(data) {
+    socket.join(data.chatId)
+    io.to(data.users.requestingUser.socketId).emit("accepted request", data)
+  })
+  socket.on("accepted invite", function(data) {
+    socket.join(data.chatId)
+    io.to(data.chatId).emit("someone joined chat", data.joiningUser)
+  })
+  socket.on("join chat", function(data) {
+    socket.join(data.chatId)
+  })
+>>>>>>> d4ff99cd272bca2dd49ec0660dbbfaae7e9408a9
   socket.on("chat message", function(data) {
     io.emit("update chat", data)
 	})

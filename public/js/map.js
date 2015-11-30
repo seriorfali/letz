@@ -22,6 +22,7 @@ function generateMap() {
           method: "PUT",
           data: {currentLocation: pos}
         })
+<<<<<<< HEAD
         .done(function(updatedUser) {
           currentUser = updatedUser
           // Style of map.
@@ -53,6 +54,43 @@ function generateMap() {
               stylers: [
                 {saturation: -20}
               ]
+=======
+      })
+
+      buildMap.then(function(map) {
+        console.log(socket)
+        receiveChatRequestsAndInvites()
+
+        // Periodically retrieve user's current location.
+        navigator.geolocation.watchPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+
+          // Update current user document location with current location.
+          $.ajax({
+            url: "/api/users/" + currentUser._id,
+            method: "PUT",
+            data: {currentLocation: pos}
+          })
+          .done(function(updatedUser) {
+            currentUser = updatedUser
+
+            // To recenter the map at the current user's current location.
+            map.setCenter(pos)
+
+            // To calculate user's age.
+            function getAge(user) {
+              var today = new Date()
+              var dob = new Date(user.local.dob || user.facebook.dob)
+              var age = today.getFullYear() - dob.getFullYear()
+              var monthDiff = today.getMonth() - dob.getMonth()
+              if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--
+              }
+              return age
+>>>>>>> d4ff99cd272bca2dd49ec0660dbbfaae7e9408a9
             }
           ])
 
@@ -133,6 +171,7 @@ function generateMap() {
             marker.setIcon(icon)
           }
 
+<<<<<<< HEAD
           // To add marker representing user on map.
           function addMarker(map, user) {
             var marker = new google.maps.Marker({
@@ -146,6 +185,21 @@ function generateMap() {
               colorizeMarker(marker)
             } else {
               marker.setIcon("http://maps.google.com/mapfiles/ms/icons/purple-dot.png")
+=======
+              var marker = new google.maps.Marker({
+                map: map,
+                position: user.currentLocation,
+                title: getName(user),
+                infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + getName(user) + "</p><br>" + "<p class='infoAge'" + getAge(user) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + buttons + "</div>",
+                user: user
+              })
+              if (currentUser.currentStatus) {
+                colorizeMarker(marker)
+              } else {
+                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/purple-dot.png")
+              }
+              return marker
+>>>>>>> d4ff99cd272bca2dd49ec0660dbbfaae7e9408a9
             }
             return marker
           }
@@ -193,8 +247,49 @@ function generateMap() {
             }
           })
 
+<<<<<<< HEAD
           // Variable that represents number of chat windows open.
           var chats = 0
+=======
+            // After all user markers are placed on map, build event listener.
+            displayMarkers.then(function(userMarkers) {
+              // To display user information when marker is clicked.
+              for (var m in userMarkers) {
+                var userMarker = userMarkers[m]
+                userMarker.addListener("click", function() {
+                  var userMarker = this
+                  var infoWindow = displayInfo(map, userMarker)
+
+                  // AJAX request to open chat window when chat button is clicked.
+                  $(".startChat").click(function(event) {
+                    event.preventDefault()
+                    sendChatRequest(userMarker, infoWindow)
+                  })
+
+                  $(".inviteToChat").click(function(event) {
+                    event.preventDefault()
+                    var chatOptions = ""
+                    for (var c in chats) {
+                      var chat = chats[c]
+                        , users = [chat.users.requestingUser, chat.users.targetUser]
+                        , othersInChat = []
+
+                      chat.users.invitedUsers.forEach(function(invitedUser) {
+                        users.push(invitedUser)
+                      })
+
+                      for (var u in users) {
+                        var user = chat.users[u]
+                        if (user._id !== currentUser._id) {
+                          othersInChat.push(getName(user))
+                        }
+                      }
+
+                      chatOptions += "<option class='chatOptions' value='" + chat.id + "'>" + othersInChat.join(", ") + "</option>"
+                    }
+
+                    var chatSelectionPrompt = "<b>Which chat?</b><br>" + "<form id='chatForm'>" + "<select id='chatDropdown' form='chatForm' required='required'>" + chatOptions + "</select>" + "</form>"
+>>>>>>> d4ff99cd272bca2dd49ec0660dbbfaae7e9408a9
 
           var chatWindow = "<div class='chats' id='chat" + chats + "'>" + "<ul class='messages'></ul>" + "<form class='sendMessage' action=''>" + "<input class='newMessages' autocomplete='off' /><button>Send</button>" + "</form>" + "</div>"
 
