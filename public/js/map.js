@@ -1,5 +1,5 @@
 var currentUser
-  , socket
+  , socket;
 
 // If browser supports geolocation, display map centered on current location; otherwise, prompt user to consent to location sharing.
 function generateMap() {
