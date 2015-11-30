@@ -91,7 +91,7 @@ function generateMap() {
 
       buildMap.then(function(map) {
         console.log(socket)
-        receiveChatRequests()
+        receiveChatRequestsAndInvites()
 
         // Periodically retrieve user's current location.
         navigator.geolocation.watchPosition(function(position) {
@@ -183,7 +183,7 @@ function generateMap() {
               var marker = new google.maps.Marker({
                 map: map,
                 position: user.currentLocation,
-                title: getName(user)
+                title: getName(user),
                 infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + getName(user) + "</p><br>" + "<p class='infoAge'" + getAge(user) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + buttons + "</div>",
                 user: user
               })
@@ -238,21 +238,30 @@ function generateMap() {
                   var infoWindow = displayInfo(map, userMarker)
 
                   // AJAX request to open chat window when chat button is clicked.
-                  $(".startChat").click(function() {
+                  $(".startChat").click(function(event) {
+                    event.preventDefault()
                     sendChatRequest(userMarker, infoWindow)
                   })
 
-                  $(".inviteToChat").click(function() {
+                  $(".inviteToChat").click(function(event) {
+                    event.preventDefault()
                     var chatOptions = ""
                     for (var c in chats) {
                       var chat = chats[c]
-                      var othersInChat = []
-                      for (var u in chat.users) {
-                        user = chat.users[u]
+                        , users = [chat.users.requestingUser, chat.users.targetUser]
+                        , othersInChat = []
+
+                      chat.users.invitedUsers.forEach(function(invitedUser) {
+                        users.push(invitedUser)
+                      })
+
+                      for (var u in users) {
+                        var user = chat.users[u]
                         if (user._id !== currentUser._id) {
                           othersInChat.push(getName(user))
                         }
                       }
+
                       chatOptions += "<option class='chatOptions' value='" + chat.id + "'>" + othersInChat.join(", ") + "</option>"
                     }
 

@@ -47,9 +47,19 @@ io.on("connection", function(socket) {
     var chatId = data.users.requestingUser.socketId + data.users.targetUser.socketId
     io.to(data.users.targetUser.socketId).emit("chat request", data)
   })
+  socket.on("chat invite", function(data) {
+    io.to(data.invitedUser.socketId).emit("chat invite", data)
+  })
   socket.on("accepted request", function(data) {
     socket.join(data.chatId)
     io.to(data.users.requestingUser.socketId).emit("accepted request", data)
+  })
+  socket.on("accepted invite", function(data) {
+    socket.join(data.chatId)
+    io.to(data.chatId).emit("someone joined chat", data.joiningUser)
+  })
+  socket.on("join chat", function(data) {
+    socket.join(data.chatId)
   })
   socket.on("chat message", function(data) {
     io.to(data.chatId).emit("update chat", data)
