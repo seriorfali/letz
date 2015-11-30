@@ -57,6 +57,11 @@ function generateMap() {
                     {visibility: 'off'}
                   ]
                 }, {
+                  featureType: 'landscape.man_made',
+                  stylers: [
+                    {color: '#bfbfbf'}
+                  ]
+                }, {
                   featureType: 'water',
                   stylers: [
                     {saturation: -20}
