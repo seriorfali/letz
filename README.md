@@ -3,7 +3,7 @@
 
 This is the README markdown for Letz Local Activity Finder Project.
 
-The primary service of Letz is to provide a real-time visual representation of other local people with similar interests and ages for a user-queried grop activity. This markdown will provide full descriptive details about Letz, including which APIs will be utilized, technologies used (langauages, frameworks, packages, etc.), where the application is hosted online, etc.
+The primary service of Letz is to provide a real-time visual representation of other local people with similar interests and ages for a user-queried group activity. This markdown will provide full descriptive details about Letz, including which APIs will be utilized, technologies used (langauages, frameworks, packages, etc.), where the application is hosted online, etc.
 
 ### Contents
 

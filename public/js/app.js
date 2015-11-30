@@ -9,8 +9,6 @@ function getName(user) {
   return name
 }
 
-$("#menu").load("/public/views/partials/menu.html")
-
 // To load landing page if no current user, and map otherwise.
 if (!currentUser) {
   $("#container").load("/public/views/landing.html", function(response, status) {
