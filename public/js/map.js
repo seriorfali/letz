@@ -14,6 +14,8 @@ function generateMap() {
 
       $("#menu").css("color", "black")
 
+      $("#logout").load("/public/views/partials/logout.html")
+
       var buildMap = new Promise(function(resolve, reject) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -61,12 +63,32 @@ function generateMap() {
                 }, {
                   featureType: 'landscape.man_made',
                   stylers: [
-                    {color: '#cccccc'}
+                    {color: '#D0D0D0'}
                   ]
                 }, {
-                  featureType: 'landscape.man_made',
+                  featureType: 'poi.government',
                   stylers: [
-                    {color: '#cccccc'}
+                    {color: '#e1dae7'}
+                  ]
+                }, {
+                  featureType: 'poi.school',
+                  stylers: [
+                    {color: '#e1dae7'}
+                  ]
+                }, {
+                  featureType: 'poi.business',
+                  stylers: [
+                    {color: '#e1dae7'}
+                  ]
+                }, {
+                  featureType: 'poi.attraction',
+                  stylers: [
+                    {color: '#e1dae7'}
+                  ]
+                }, {
+                  featureType: 'poi.medical',
+                  stylers: [
+                    {color: '#e1dae7'}
                   ]
                 }, {
                   featureType: 'water',
@@ -268,7 +290,7 @@ function generateMap() {
                       })
 
                       for (var u in users) {
-                        var user = chat.users[u]
+                        var user = users[u]
                         if (user._id !== currentUser._id) {
                           othersInChat.push(getName(user))
                         }
@@ -277,15 +299,15 @@ function generateMap() {
                       chatOptions += "<option class='chatOptions' value='" + chat.id + "'>" + othersInChat.join(", ") + "</option>"
                     }
 
-                    var chatSelectionPrompt = "<b>Which chat?</b><br>" + "<form id='chatForm'>" + "<select id='chatDropdown' form='chatForm' required='required'>" + chatOptions + "</select>" + "</form>"
+                    var chatSelectionPrompt = "<b>Which chat?</b><br>" + "<form id='chatForm'>" + "<select id='chatDropdown' form='chatForm' required='required'>" + "<option selected='selected' disabled='disabled'>Select a chat.</option>" + chatOptions + "</select>" + "</form>"
 
                     infoWindow.setContent(chatSelectionPrompt)
 
-                    google.maps.event.addListenerOnce(infoWindow, "content_changed", function() {
+                    // google.maps.event.addListenerOnce(infoWindow, "content_changed", function() {
                       $("#chatDropdown").change(function() {
                         var chatId = this.options[this.selectedIndex].value
                         inviteToChat(userMarker, infoWindow, chatId)
-                      })
+                      // })
                     })
                   })
                 })
@@ -301,7 +323,7 @@ function generateMap() {
         var userMarkers = map.markers
 
         // HTML for overlay that prompts user to declare status.
-        var statusOverlay = "<div id='statusOverlay'>" + "<p id='statusPrompt'>What are you in the mood for?</p>" + "<form id='statusForm'>" + "<select id='statusDropdown' form='statusForm' required='required'>" + "<option class='statusOptions' value='food'>Food</option>" + "<option class='statusOptions' value='coffee'>Coffee/Tea</option>" + "<option class='statusOptions' value='movie'>Movie</option>" + "<option class='statusOptions' value='stroll'>Stroll</option>" + "<option class='statusOptions' value='exercise'>Exercise</option>" + "<option class='statusOptions' value='recreation'>Recreation</option>" + "<option class='statusOptions' value='shopping'>Shopping</option>" + "<option class='statusOptions' value='sightseeing'>Sightseeing</option>" + "<option class='statusOptions' value='party'>Party</option>" + "<option class='statusOptions' value='concert'>Concert</option>" + "</select>" + "</form>" + "</div>"
+        var statusOverlay = "<div id='statusOverlay'>" + "<p id='statusPrompt'>What are you in the mood for?</p>" + "<form id='statusForm'>" + "<select id='statusDropdown' form='statusForm' required='required'>" + "<option selected='selected' disabled='disabled'>Choose.</option>" + "<option class='statusOptions' value='food'>Food</option>" + "<option class='statusOptions' value='coffee'>Coffee/Tea</option>" + "<option class='statusOptions' value='movie'>Movie</option>" + "<option class='statusOptions' value='stroll'>Stroll</option>" + "<option class='statusOptions' value='exercise'>Exercise</option>" + "<option class='statusOptions' value='recreation'>Recreation</option>" + "<option class='statusOptions' value='shopping'>Shopping</option>" + "<option class='statusOptions' value='sightseeing'>Sightseeing</option>" + "<option class='statusOptions' value='party'>Party</option>" + "<option class='statusOptions' value='concert'>Concert</option>" + "</select>" + "</form>" + "</div>"
 
         // To display status overlay in browser.
         $("#map").append(statusOverlay)

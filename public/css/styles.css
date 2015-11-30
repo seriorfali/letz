@@ -10,10 +10,19 @@ html, body {
 #container {
   width: 100%;
   height: 100%;
-	background-image: url("http://i.imgur.com/aaTsnPs.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
 	position: relative;
+}
+
+#logoutButton {
+  position: absolute;
+  top: 18px;
+  left: 115px;
+  color: black;
+  z-index: 1;
+  padding: 7px 9px 6px 9.5px;
+  border-radius: 3px;
+  background-color: rgba(245, 245, 245, 0.3);
+  font-size: 22px;
 }
 
 /*# sourceMappingURL=styles.css.map */

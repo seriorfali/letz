@@ -80,8 +80,6 @@ function showCurrentUser(req, res) {
 function logout(req, res) {
   req.logout()
   res.redirect("/")
-  User.currentLocation = {}
-  User.currentStatus = ""
 }
 
 module.exports = {

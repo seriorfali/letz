@@ -18,11 +18,35 @@
 }
 
 .ui-dialog {
-  opacity: 0.4;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .ui-dialog-content {
   font-family: 'Nunito', sans-serif;
   font-weight: 300;
   font-size: 15px;
+}
+
+.chatRequests {
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  text-align: center;
+  color: whitesmoke;
+  border-radius: 4px;
+  padding: 0px 8px 8px 8px;
+}
+
+.chatInvites {
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  text-align: center;
+  color: whitesmoke;
+  border-radius: 4px;
+  padding: 0px 8px 8px 8px;
 }

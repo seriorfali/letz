@@ -6,7 +6,7 @@ userRouter.post("/login", usersController.login)
 
 userRouter.get("/current", usersController.showCurrentUser)
 
-userRouter.get("/logout", usersController.logout)
+userRouter.get("/logout/", usersController.logout)
 
 // Facebook routes.
 userRouter.get("/auth/facebook", usersController.fbAuth)

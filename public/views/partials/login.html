@@ -1,15 +1,19 @@
 <div id="login">
-  <h1>LOGIN</h1>
-  <form action="">
-    <div class="loginFields">
-      <label>Email</label>
-      <input type="email" required autocomplete="off">
-    </div>
-    <div class="loginFields">
-      <label>Password</label>
-      <input type="password" required autocomplete="off">
-    </div>
-    <p id="forgotPassword">Forgot password?</p>
-    <button type="submit" id="loginSubmit">Letz go!</button>
+  <p id="loginTitle">LOGIN</p>
+  <form name="loginform" id="loginForm" action=""  class="wpl-track-me">
+  <p class="loginFields">
+        <label for="user_login">Email</label>
+            <input type="email" name="log" id="loginEmail" class="loginInputs" placeholder="Email" value="" size="20" />
+        </p>
+
+  <p class="loginFields">
+        <label for="user_pass">Password</label><input type="password" name="pwd" id="loginPassword" class="loginInputs" placeholder="Password" value="" size="20" />
+        </p>
+
+        <p class="login-submit"><input type="submit" name="wp-submit" id="loginSubmit" class="button-primary" value="Login" />
+
+        </p>
+
+
   </form>
 </div>

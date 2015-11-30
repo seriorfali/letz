@@ -1,19 +1,6 @@
-#loginform {
-  position:fixed;
-  top: 45%;
-  left: 35%;
-  opacity: 0.6;
-	background-color:black;
-	display: block;
-	height: 382px;
-	margin: 0 auto;
-	width: 400px;
-	padding: 30px;
 
-}
 
 .login-username:before {
-	content: "Welcome";
 	color: #4c4c4c;
 	font-size: 20px;
 	text-transform: uppercase;
@@ -21,66 +8,30 @@
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
 }
 
- .login-username label, .login-password label {
+ .loginFields label, .signupFields label {
 	display: none;
 	text-indent: -9999px;
 }
 
-.login-username .input{
-	margin-top: 15px;
- }
-
-.login-password .input { margin-top: -14px;}
-
  ::-moz-placeholder {  /* Firefox 19+ */
    color: #4c4c4c;
-   text-transform: uppercase;
 }
 
 ::-webkit-input-placeholder {
    color: #5d5b5b;
-   text-transform: uppercase;
-}
-
-.input {
-	background-color: #fff;
-	cursor: text;
-	border: solid 1px #dedede;
-	box-sizing: border-box;
-	color: #4c4c4c;
-	font: 400 13px/18px 'oswald';
-	height: 40px;
-	margin-bottom: -18px;
-	outline: none;
-	padding: 8px 15px;
-	transition: border 0.3s;
-	width:100%;
 }
 
 .input:focus { border: solid 1px #f35b5b; }
 
-.login-username:after {
-	background-color: #f7f7f7;
-	content: '*';
-	color: #f35b5b;
-	height: 35px;
-	width: 35px;
-	float: right;
-	font: 400 24px 'oswald';
-	line-height: 43px;
-	position: relative;
-	overflow: hidden;
-	right: 2px;
-	text-align: center;
-	top: -24px;
+.loginFields {
+  text-align: center;
 }
 
-.login-password:after {
+.loginFields:after {
 	background-color: #f7f7f7;
-	content: '*';
 	color: #f35b5b;
-	height: 35px;
-	width: 35px;
+	height: 15px;
+	width: 15px;
 	float: right;
 	font: 400 24px 'oswald';
 	line-height: 43px;
@@ -89,19 +40,38 @@
 	right: 2px;
 	text-align: center;
 	top: -24px;
+  margin: auto;
+}
+
+.signupFields:after {
+	background-color: #f7f7f7;
+	color: #f35b5b;
+	height: 15px;
+	width: 15px;
+	float: right;
+	font: 400 24px 'oswald';
+	line-height: 43px;
+	position: relative;
+	overflow: hidden;
+	right: 2px;
+	text-align: center;
+	top: -24px;
+  margin: auto;
 }
 
 .button-primary {
+  font-family: 'Nunito', sans-serif;
+	font-weight: 300;
+  font-size: 24px;
 	background-color: #14b9d6;
 	border: solid 1px transparent;
 	box-sizing: border-box;
 	color: #fff;
 	cursor: pointer;
-	font:  24px/36px 'oswald';
   padding: 1px;
 	height: 42px;
 	letter-spacing: 1px;
-	margin-top: -11px;
+	margin-top: 11px;
 	outline: none;
 	text-align: center;
 	text-transform: uppercase;

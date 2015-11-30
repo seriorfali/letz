@@ -33,7 +33,7 @@ function receiveChatRequestsAndInvites() {
 
     $(".acceptChatInvite").click(function(event) {
       event.preventDefault()
-      socket.emit("accepted invite", {joiningUser: currentUser, chatId: chatId})
+      socket.emit("accepted invite", {joiningUser: currentUser, chatId: data.chatId})
       generateChat({
         chatId: data.chatId,
         users: data.users

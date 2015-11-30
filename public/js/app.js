@@ -33,3 +33,18 @@ if (!currentUser) {
     }
   })
 }
+
+$("#logout").click(function() {
+  $.ajax({
+    url: "/api/users/" + currentUser._id,
+    method: "PUT",
+    data: {
+      currentLocation: {},
+      currentStatus: "",
+    }
+  })
+  .done(function(updatedUser) {
+    console.log(updatedUser)
+    $.get("/api/users/logout")
+  })
+})
