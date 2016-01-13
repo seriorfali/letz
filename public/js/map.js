@@ -161,7 +161,7 @@ function generateMap() {
             // To calculate similarity of user's age to current user's age.
             function getSimAge(user) {
               var simAge
-              if ((getAge(user) >= getAge(currentUser) - 10) && (getAge(user) <= getAge(currentUser) + 10)) {
+              if ((getAge(user) >= (getAge(currentUser) - 10)) && (getAge(user) <= (getAge(currentUser) + 10))) {
                 simAge = 1
               } else {
                 simAge = 0
@@ -191,11 +191,23 @@ function generateMap() {
               var sim = getSim(user)
               var icon
               if (sim === 0) {
-                icon = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                icon = {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  strokeColor: "#cb2e28",
+                  scale: 7
+                }
               } else if (sim === 1) {
-                icon = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                icon = {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  strokeColor: "#ffc338",
+                  scale: 7
+                }
               } else if (sim === 2) {
-                icon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                icon = {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  strokeColor: "#09c61a",
+                  scale: 7
+                }
               }
               return icon
             }
@@ -221,10 +233,15 @@ function generateMap() {
                 infoWindowContent: "<div class='infoWindow'>" + "<p class='infoName'>" + getName(user) + "</p><br>" + "<p class='infoAge'" + getAge(user) + "</p><br>" + "<p class='infoStatus'>" + user.currentStatus + "</p><br>" + buttons + "</div>",
                 user: user
               })
-              if (currentUser.currentStatus) {
+              if (currentUser.currentStatus && (user._id !== currentUser._id)) {
                 colorizeMarker(marker)
+              } else if (user._id !== currentUser._id) {
+                marker.setIcon({
+                  path: google.maps.SymbolPath.CIRCLE,
+                  strokeColor: "black",
+                  scale: 7
+                })
               } else {
-                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/purple-dot.png")
               }
               return marker
             }
@@ -240,10 +257,10 @@ function generateMap() {
                 userMarkers = []
                 for (u in users) {
                   user = users[u]
-                  if (user.currentLocation && user._id !== currentUser._id) {
+                  if (user.currentLocation && (user._id !== currentUser._id)) {
                     // Turn user's current coordinates into Google LatLng object.
-                    currentLocation = new google.maps.LatLng(user.currentLocation.lat, user.currentLocation.lng)
-                    if (map.getBounds().contains(currentLocation)) {
+                    var userLocation = new google.maps.LatLng(user.currentLocation.lat, user.currentLocation.lng)
+                    if (map.getBounds().contains(userLocation)) {
                       var userMarker = addMarker(map, user)
                       userMarkers.push(userMarker)
                     }
@@ -264,6 +281,7 @@ function generateMap() {
 
             // After all user markers are placed on map, build event listener.
             displayMarkers.then(function(userMarkers) {
+              console.log(getAge(currentUser))
               // To display user information when marker is clicked.
               for (var m in userMarkers) {
                 var userMarker = userMarkers[m]
