@@ -16,7 +16,8 @@ function generateMap() {
 
       $("#logout").load("/public/views/partials/logout.html")
 
-      var buildMap = new Promise(function(resolve, reject) {
+      var refreshMap
+        , buildMap = new Promise(function(resolve, reject) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
             lat: position.coords.latitude,
@@ -63,32 +64,32 @@ function generateMap() {
                 }, {
                   featureType: 'landscape.man_made',
                   stylers: [
-                    {color: '#D0D0D0'}
+                    {color: '#E7E0D7'}
                   ]
                 }, {
                   featureType: 'poi.government',
                   stylers: [
-                    {color: '#e1dae7'}
+                    {color: '#D3CDC5'}
                   ]
                 }, {
                   featureType: 'poi.school',
                   stylers: [
-                    {color: '#e1dae7'}
+                    {color: '#D3CDC5'}
                   ]
                 }, {
                   featureType: 'poi.business',
                   stylers: [
-                    {color: '#e1dae7'}
+                    {color: '#D3CDC5'}
                   ]
                 }, {
                   featureType: 'poi.attraction',
                   stylers: [
-                    {color: '#e1dae7'}
+                    {color: '#D3CDC5'}
                   ]
                 }, {
                   featureType: 'poi.medical',
                   stylers: [
-                    {color: '#e1dae7'}
+                    {color: '#D3CDC5'}
                   ]
                 }, {
                   featureType: 'water',
@@ -128,10 +129,20 @@ function generateMap() {
         receiveChatRequestsAndInvites()
 
         // Periodically retrieve user's current location.
-        navigator.geolocation.watchPosition(function(position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
+        refreshMap = function(position) {
+          var pos
+          if (!position) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              }
+            })
+          } else {
+            pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
           }
 
           // Update current user document location with current location.
@@ -199,7 +210,7 @@ function generateMap() {
               } else if (sim === 1) {
                 icon = {
                   path: google.maps.SymbolPath.CIRCLE,
-                  strokeColor: "#ffc338",
+                  strokeColor: "#ebb00d",
                   scale: 7
                 }
               } else if (sim === 2) {
@@ -332,6 +343,10 @@ function generateMap() {
               }
             })
           })
+        }
+
+        navigator.geolocation.watchPosition(function(position) {
+          refreshMap(position)
         })
 
         return map
@@ -359,11 +374,8 @@ function generateMap() {
           .done(function(updatedUser) {
             currentUser = updatedUser
             console.log(currentUser)
+            refreshMap()
             $("#statusOverlay").remove()
-            for (var m in userMarkers) {
-              var userMarker = userMarkers[m]
-              colorizeMarker(userMarker)
-            }
           })
           .fail(function() {
             console.log("Failed to update user document current status.")
